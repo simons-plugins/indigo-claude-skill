@@ -6,197 +6,177 @@
 
 ## Description
 
-Community-maintained expert assistant for Indigo home automation plugin development. This skill provides comprehensive guidance on plugin architecture, API usage, best practices, and troubleshooting, backed by community-contributed documentation and examples.
+Community-maintained expert assistant for Indigo home automation plugin development. Provides comprehensive guidance with official SDK examples and optimized context usage.
 
-## Instructions
+## CRITICAL: Context Optimization Strategy
 
-You are an expert Indigo plugin developer with access to comprehensive, community-maintained documentation.
+**DO NOT load all files.** This skill contains 1.3MB of SDK examples. Use Read tool selectively:
 
-### When invoked for plugin development help:
+✅ **Safe to load** (small files):
+- `docs/quick-start.md` (9KB) - Getting started guide
+- `docs/concepts/plugin-lifecycle.md` (12KB) - Lifecycle reference
+- `docs/concepts/devices.md` (11KB) - Device development
+- `docs/api/indigo-object-model.md` (9KB) - API reference
+- `docs/examples/sdk-examples-guide.md` (8KB) - Example catalog
+- `docs/troubleshooting/common-issues.md` (11KB) - Troubleshooting
 
-1. **Understand the request**
-   - Identify if it's: new plugin creation, debugging, API usage, or best practices
-   - Check what Indigo version they're using (default to latest: 2023.2+/Python 3.10+)
+❌ **NEVER load all at once**:
+- `sdk-examples/` - 16 complete plugins (1.3MB total) - Load ONLY specific example when needed
 
-2. **Reference documentation systematically**
-   - Start with `docs/getting-started/` for new developers
-   - Use `docs/core-concepts/` for architectural questions
-   - Check `docs/api-reference/` for specific API details
-   - Review `docs/patterns/` for implementation approaches
-   - Search `docs/examples/` for similar implementations
-   - Consult `docs/troubleshooting/` for known issues
-   - **Use `docs/sdk/` for official Indigo SDK documentation**
-   - **Reference `sdk-examples/` for official working examples** (16 complete plugins)
+## Query Routing Guide
 
-3. **Provide comprehensive answers**
-   - Include code examples from `snippets/` when relevant
-   - Reference specific documentation files with markdown links
-   - Point to example implementations in `docs/examples/`
-   - **Reference official SDK examples in `sdk-examples/`** for production-quality code
-   - Highlight potential pitfalls from troubleshooting guide
-   - Always use Python 3 syntax (Indigo 2023.2+ uses Python 3.10+)
+Route user questions efficiently using Read tool:
 
-4. **Use the Read tool** to access documentation files directly from this repository
+### 1. "Create a plugin" / "Getting started"
+```
+1. Read docs/quick-start.md
+2. Read snippets/plugin-base-template.py
+3. If specific device type: Read docs/examples/sdk-examples-guide.md to find example
+4. Read ONLY that specific SDK example if needed
+```
 
-5. **Best practices to always follow**
-   - Call `super()` methods in all callbacks
-   - Use `self.sleep()` instead of `time.sleep()` in concurrent threads
-   - Validate all user input in validation callbacks
-   - Log with appropriate levels: `self.logger.debug/info/error/exception`
-   - Bundle Python dependencies in `Contents/Packages/`
-   - Never use blocking operations in main thread
+### 2. "Debug error" / "Plugin not working"
+```
+1. Read docs/troubleshooting/common-issues.md
+2. Match error to solution
+3. If lifecycle issue: Read docs/concepts/plugin-lifecycle.md
+```
 
-### Common Task Workflows
+### 3. "How do I [API task]?"
+```
+1. Read docs/api/indigo-object-model.md
+2. Show code example from doc
+```
 
-#### Creating a New Plugin
-1. Read `docs/getting-started/first-plugin.md` for overview
-2. Copy template from `snippets/plugin-base-template.py`
-3. Review device type guide in `docs/core-concepts/device-types.md`
-4. Reference similar example in `docs/examples/`
+### 4. "Show me an example"
+```
+1. Read docs/examples/sdk-examples-guide.md (catalog)
+2. Find matching example
+3. Read ONLY that specific example's code
+```
 
-#### Debugging Issues
-1. Check `docs/troubleshooting/common-issues.md` first
-2. Review `docs/troubleshooting/debugging.md` for techniques
-3. Check plugin lifecycle in `docs/core-concepts/plugin-lifecycle.md`
+### 5. "Explain [concept]"
+```
+1. Read appropriate docs/concepts/ file
+2. Explain with examples
+```
 
-#### API Integration
-1. Review `docs/patterns/api-integration.md`
-2. Check `docs/patterns/polling-patterns.md` for periodic updates
-3. See `docs/patterns/error-handling.md` for robust error handling
+## Workflow: Creating Plugins
 
-#### Configuration UI
-1. Check `docs/api-reference/ui-validation.md`
-2. Review examples in `docs/examples/` for UI patterns
-3. See `docs/patterns/configuration-ui.md` for best practices
+**User**: "Create a thermostat plugin"
 
-### Documentation Structure
+1. ✅ Read `docs/quick-start.md` - Setup and structure
+2. ✅ Read `docs/examples/sdk-examples-guide.md` - Find thermostat example
+3. ✅ Read `sdk-examples/Example Device - Thermostat.indigoPlugin/.../plugin.py` - Specific code
+4. ✅ Generate custom code based on pattern
+5. ❌ Don't load all 16 examples
 
-All documentation follows this hierarchy:
-- **Getting Started**: For new plugin developers
-- **Core Concepts**: Understanding plugin architecture
-- **API Reference**: Detailed API documentation
-- **Patterns**: Reusable implementation patterns
-- **Examples**: Complete working examples
-- **Troubleshooting**: Common issues and solutions
+## Workflow: Debugging
 
-### Official SDK Examples
+**User**: "Plugin crashes on startup"
 
-This repository includes **16 complete, working example plugins** from the official Indigo SDK in `sdk-examples/`:
+1. ✅ Read `docs/troubleshooting/common-issues.md#plugin-crashes-on-startup`
+2. ✅ Check common causes (API in __init__, missing super())
+3. ✅ If needed: Read `docs/concepts/plugin-lifecycle.md`
+4. ❌ Don't load examples unless relevant
 
-**Device Types**:
-- Custom Devices - General-purpose with custom states
-- Relay and Dimmer - On/off and brightness control
+## Documentation Structure
+
+**Optimized for selective loading**:
+
+```
+docs/
+├── quick-start.md              # Complete getting started (9KB)
+├── concepts/
+│   ├── plugin-lifecycle.md     # Lifecycle methods (12KB)
+│   └── devices.md              # Device development (11KB)
+├── api/
+│   └── indigo-object-model.md  # Complete API reference (9KB)
+├── examples/
+│   └── sdk-examples-guide.md   # Catalog of 16 examples (8KB)
+└── troubleshooting/
+    └── common-issues.md        # Common problems (11KB)
+
+sdk-examples/                   # 16 complete plugins (1.3MB)
+├── README.md                   # Quick catalog (6KB)
+└── [16 example plugins]        # Load individually only
+
+snippets/
+└── plugin-base-template.py     # Clean template
+```
+
+## SDK Examples: 16 Complete Plugins
+
+**Device Types** (Load when user needs specific type):
+- Custom - General-purpose with custom states
+- Relay/Dimmer - On/off and brightness control
 - Thermostat - Climate control with HVAC modes
-- Sensor - Read-only monitoring devices
-- Speed Control - Variable speed devices (fans)
+- Sensor - Read-only monitoring
+- Speed Control - Variable speed (fans)
 - Sprinkler - Multi-zone irrigation
 - Energy Meter - Power monitoring
 
-**Integration**:
-- HTTP Responder - Web server and REST API
-- Action API - Custom actions and commands
-- Custom Broadcaster/Subscriber - Plugin communication
-- Variable Change Subscriber - Monitor Indigo variables
-- Database Traverse - Query Indigo's database
-- INSTEON/X10 Listener - Hardware protocol integration
-- Z-Wave Listener - Z-Wave protocol handling
+**Integration** (Load when user needs integration):
+- HTTP Responder - Web server/REST API
+- Action API - Custom actions
+- Broadcaster/Subscriber - Plugin communication
+- Variable Subscriber - Monitor variables
+- Database Traverse - Query database
 
-**When referencing examples**, always check `sdk-examples/README.md` for the complete catalog and usage guide. These are production-quality, officially maintained examples.
+**Finding examples**: Read `sdk-examples/README.md` or `docs/examples/sdk-examples-guide.md` first, then load specific example.
 
-### SDK Documentation
+## Version Information
 
-The `docs/sdk/` directory contains the complete official Indigo SDK documentation organized by topic:
-- Getting started guides
-- Plugin development patterns
-- API reference materials
-- Troubleshooting guides
+- **Current**: Indigo 2023.2+ (Python 3.10+)
+- **Legacy**: 2022.x (Python 2.7, not recommended)
+- Always use Python 3 syntax
 
-Cross-reference SDK docs with community docs for comprehensive understanding.
+## Best Practices (Always Follow)
 
-### Version-Specific Information
+### Code Quality
+- ✅ Always call `super()` in all lifecycle methods
+- ✅ Use `self.sleep()` NOT `time.sleep()` in concurrent threads
+- ✅ Validate all user input in validation callbacks
+- ✅ Log appropriately: `self.logger.debug/info/error/exception()`
+- ✅ Bundle Python dependencies in `Contents/Packages/`
+- ✅ Handle exceptions gracefully
+- ✅ Close connections in `shutdown()`
 
-For version-specific features or changes, check `versions/{version}/` directory.
+### Security
+- Never expose API keys in logs
+- Validate all external input
+- Handle exceptions without exposing sensitive data
 
-Current versions:
-- **2023.2+**: Python 3.10+, modern API (current)
-- **2022.x and earlier**: Python 2.7 (legacy, not recommended)
+## Response Guidelines
 
-### Key Indigo Concepts
+1. **Reference file paths**: Link to specific docs with markdown
+   - Example: "See [plugin-lifecycle.md](docs/concepts/plugin-lifecycle.md)"
 
-**Plugin Lifecycle**:
-```
-__init__() → startup() → runConcurrentThread() → shutdown()
-```
+2. **Show code examples**: Always include working code snippets
 
-**Device Callbacks**:
-- `deviceStartComm()` - Device enabled
-- `deviceStopComm()` - Device disabled
-- `deviceUpdated()` - Device properties changed
+3. **Explain why**: Don't just show code, explain the pattern
 
-**Action Callbacks**:
-- Named methods in plugin class
-- Defined in Actions.xml
-- Called when user triggers action
+4. **Point to examples**: "This is like Example Device - Thermostat"
 
-**Validation Callbacks**:
-- `validatePrefsConfigUi()` - Plugin config validation
-- `validateDeviceConfigUi()` - Device config validation
-- `validateActionConfigUi()` - Action config validation
+## When to Use Each Resource
 
-### Common Patterns
-
-**Polling API with Rate Limiting**:
-```python
-def runConcurrentThread(self):
-    while True:
-        try:
-            self._update_devices()
-        except Exception as exc:
-            self.logger.exception("Error updating devices")
-        self.sleep(self.polling_interval * 60)
-```
-
-**Safe Device State Updates**:
-```python
-def update_device_state(self, dev, new_states):
-    state_list = []
-    for key, value in new_states.items():
-        state_list.append({'key': key, 'value': value})
-    dev.updateStatesOnServer(state_list)
-```
-
-**Error Handling in API Calls**:
-```python
-try:
-    response = requests.get(url, timeout=self.timeout)
-    response.raise_for_status()
-    return response.json()
-except requests.Timeout:
-    self.logger.error("API request timed out")
-except requests.RequestException as exc:
-    self.logger.exception("API request failed")
-```
-
-### Community Contributions
-
-This skill is community-maintained. Users can contribute:
-- Documentation improvements
-- New examples
-- Troubleshooting guides
-- Code snippets
-- Best practices
-
-See CONTRIBUTING.md in the repository.
+| User Need | Load These | Don't Load |
+|-----------|-----------|------------|
+| Create plugin | quick-start.md, template.py | Examples |
+| Debug | troubleshooting/common-issues.md | Concepts |
+| API question | api/indigo-object-model.md | Examples |
+| Concept | Specific concept doc | All concepts |
+| Example | sdk-examples-guide.md + specific example | All examples |
 
 ## Quick Reference
 
-### Documentation Links
-- Getting started: `docs/getting-started/`
-- Core concepts: `docs/core-concepts/`
-- API reference: `docs/api-reference/`
-- Patterns: `docs/patterns/`
-- Examples: `docs/examples/`
-- Troubleshooting: `docs/troubleshooting/`
+### Core Files
+- `docs/quick-start.md` - Getting started
+- `docs/concepts/plugin-lifecycle.md` - Lifecycle
+- `docs/concepts/devices.md` - Devices
+- `docs/api/indigo-object-model.md` - API
+- `docs/examples/sdk-examples-guide.md` - Example catalog
+- `docs/troubleshooting/common-issues.md` - Troubleshooting
 
 ### External Resources
 - Official Plugin Guide: https://www.indigodomo.com/docs/plugin_guide
