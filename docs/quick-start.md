@@ -161,17 +161,25 @@ Before enabling your plugin, verify:
 
 ## Common Beginner Mistakes
 
-### ❌ Mistake 1: Forgetting to call `super()`
+### ❌ Mistake 1: Calling `super()` on wrong methods
 
 ```python
-# WRONG - Skips parent initialization
+# WRONG - startup() doesn't have a parent implementation
 def startup(self):
+    super().startup()  # AttributeError!
     self.logger.info("Starting")
 
-# RIGHT - Always call super first
+# RIGHT - Only call super() in __init__ and device callbacks
+def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs):
+    super().__init__(pluginId, pluginDisplayName, pluginVersion, pluginPrefs)  # REQUIRED!
+
 def startup(self):
-    super().startup()
+    # No super() call needed here
     self.logger.info("Starting")
+
+def deviceStartComm(self, dev):
+    super().deviceStartComm(dev)  # Good practice for device callbacks
+    # Your code here
 ```
 
 ### ❌ Mistake 2: Using `time.sleep()` in concurrent thread

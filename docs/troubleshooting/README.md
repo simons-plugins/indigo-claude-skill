@@ -49,7 +49,7 @@ plutil -lint Info.plist
 ```python
 def startup(self):
     try:
-        super().startup()
+        # Note: Do NOT call super().startup() - it doesn't exist
         self.logger.debug("Startup: step 1")
         # ... your code ...
         self.logger.debug("Startup: step 2")
