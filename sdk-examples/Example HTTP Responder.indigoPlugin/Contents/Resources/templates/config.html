@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block header_external_links %}
+    <link href="/{{ plugin.pluginId }}/static/css/config.css" rel="stylesheet">
+{% endblock %}
+
+{% block head_extras %}
+<script>$('input').on('keydown', function(event) {
+   event.preventDefault();
+});</script>
+{% endblock %}
+
+{% block content %}
+    <p class="time-loaded">Time loaded: {{ date_string }}</p>
+    <h2>Configuration for the Example HTTP Responder plugin</h2>
+    {% if error %}<div class="error"><p>{{ error }}</p></div>{% endif %}
+    <p>Here are all the values in the plugin's pluginPrefs dictionary:</p>
+    <form method="post">
+    <table>
+        <tr><th>Key</th><th>Value</th><th>&nbsp;</th></tr>
+        {% for k,v in prefs.items() %}
+            <tr><td>{{ k }}</td><td>{{ v }}</td><td><input name="{{ k }}" type="submit" value="delete" /></td></tr>
+        {% endfor %}
+        <tr><td><input type="text" name="key" /></td><td><input type="text" name="value" /></td><td><input name="operation" type="submit" value="add" /></td></tr>
+    </table>
+    </form>
+{% endblock %}

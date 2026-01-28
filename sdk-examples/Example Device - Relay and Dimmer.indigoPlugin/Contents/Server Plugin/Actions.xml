@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- By default relay/dimmer type devices will inherit all
+     class DeviceAction actions, which will be dispatched to
+     the actionControlDevice() method defined in plugin.py.
+     
+     Additional custom actions can also be defined here. The
+     example below defines a custom action to modify the brightness
+     of the backlit display of the module, and to modify the custom
+     backlightBrightness state added to Devices.xml.
+-->
+<Actions>
+    <Action id="setBacklightBrightness" deviceFilter="self">
+        <Name>Set Backlight Brightness</Name>
+        <CallbackMethod>set_backlight_brightness</CallbackMethod>
+        <ConfigUI>
+            <Field id="description" type="textfield" hidden="true">
+                <Label>runtime calculated</Label>
+            </Field>
+            <Field id="brightness" type="textfield" defaultValue="80">
+                <Label>Backlight Brightness:</Label>
+            </Field>
+        </ConfigUI>
+    </Action>
+</Actions>

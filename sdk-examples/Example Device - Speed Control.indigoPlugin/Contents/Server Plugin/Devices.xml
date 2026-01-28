@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!-- If your plugin defines device types, you can define them here.
+
+     Devices must specify their type (via the type attribute):
+
+        relay (ON/OFF/STATUS)
+        dimmer (ON/OFF/DIM/BRIGHTEN/SET BRIGHTNESS/STATUS)
+        speedcontrol (ON/OFF/SET SPEED LEVEL/SET SPEED INDEX/INCREASE/DECREASE/STATUS)
+        sensor (ON/OFF/STATUS)
+        thermostat
+        sprinkler
+        custom
+
+     The first six inherit states, actions and events from Indigo. You can
+     also specify your own custom actions and additional states, if needed.
+
+     The Device example below specifies the speedcontrol type.
+     
+     Devices must also specify a unique type_id - so, for instance, if you define
+     2 speedcontrol type devices then your plugin can distinguish between the two by
+     the type_id.
+-->
+
+<Devices>
+    <!-- This device illustrates how a plugin can inherit Indigo's speedcontrol
+    device behavior including on/off states, and speed changes, and will support
+    Indigo and Indigo Touch's native UI for speedcontrol type devices.
+    -->
+    <Device type="speedcontrol" id="mySpeedControlType">
+        <Name>Example Ceiling Fan Module</Name>
+        <ConfigUI>
+            <!-- The ConfigUI here is just an example of the type of device
+            specific UI that might be needed. Here you might specify a text
+            field for an IP address, a serial port popup, or other device
+            specific options.
+            -->
+            <Field id="address" type="textfield" defaultValue="123456">
+                <Label>Module Address:</Label>
+            </Field>
+        </ConfigUI>
+        <States>
+            <!-- By default speedcontrol type devices automatically inherit the
+            states: onOffState, speedIndex, speedLevel.
+
+            The plugin can specify additional custom states and custom
+            actions (in Actions.xml) to modify custom states. As an example
+            here, we define a new custom state, backlightBrightness, which
+            is used to control the brightness of the backlit display of
+            the module.
+            -->
+            <State id="backlightBrightness">
+                <ValueType>Integer</ValueType>
+                <TriggerLabel>Backlight Brightness</TriggerLabel>
+                <ControlPageLabel>Backlight Brightness</ControlPageLabel>
+            </State>
+        </States>
+    </Device>
+</Devices>

@@ -25,11 +25,14 @@ You are an expert Indigo plugin developer with access to comprehensive, communit
    - Review `docs/patterns/` for implementation approaches
    - Search `docs/examples/` for similar implementations
    - Consult `docs/troubleshooting/` for known issues
+   - **Use `docs/sdk/` for official Indigo SDK documentation**
+   - **Reference `sdk-examples/` for official working examples** (16 complete plugins)
 
 3. **Provide comprehensive answers**
    - Include code examples from `snippets/` when relevant
    - Reference specific documentation files with markdown links
    - Point to example implementations in `docs/examples/`
+   - **Reference official SDK examples in `sdk-examples/`** for production-quality code
    - Highlight potential pitfalls from troubleshooting guide
    - Always use Python 3 syntax (Indigo 2023.2+ uses Python 3.10+)
 
@@ -75,6 +78,40 @@ All documentation follows this hierarchy:
 - **Patterns**: Reusable implementation patterns
 - **Examples**: Complete working examples
 - **Troubleshooting**: Common issues and solutions
+
+### Official SDK Examples
+
+This repository includes **16 complete, working example plugins** from the official Indigo SDK in `sdk-examples/`:
+
+**Device Types**:
+- Custom Devices - General-purpose with custom states
+- Relay and Dimmer - On/off and brightness control
+- Thermostat - Climate control with HVAC modes
+- Sensor - Read-only monitoring devices
+- Speed Control - Variable speed devices (fans)
+- Sprinkler - Multi-zone irrigation
+- Energy Meter - Power monitoring
+
+**Integration**:
+- HTTP Responder - Web server and REST API
+- Action API - Custom actions and commands
+- Custom Broadcaster/Subscriber - Plugin communication
+- Variable Change Subscriber - Monitor Indigo variables
+- Database Traverse - Query Indigo's database
+- INSTEON/X10 Listener - Hardware protocol integration
+- Z-Wave Listener - Z-Wave protocol handling
+
+**When referencing examples**, always check `sdk-examples/README.md` for the complete catalog and usage guide. These are production-quality, officially maintained examples.
+
+### SDK Documentation
+
+The `docs/sdk/` directory contains the complete official Indigo SDK documentation organized by topic:
+- Getting started guides
+- Plugin development patterns
+- API reference materials
+- Troubleshooting guides
+
+Cross-reference SDK docs with community docs for comprehensive understanding.
 
 ### Version-Specific Information
 

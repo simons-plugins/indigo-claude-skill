@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!-- If your plugin defines device types, you can define them here.
+
+     Devices must specify their type (via the type attribute):
+
+        relay (ON/OFF/STATUS)
+        dimmer (ON/OFF/DIM/BRIGHTEN/SET BRIGHTNESS/STATUS)
+        sprinkler (ON/OFF/SET SPEED LEVEL/SET SPEED INDEX/INCREASE/DECREASE/STATUS)
+        sensor (ON/OFF/STATUS)
+        thermostat
+        sprinkler (ACTIVE ZONE INDEX)
+        custom
+
+     The first six inherit states, actions and events from Indigo. You can
+     also specify your own custom actions and additional states, if needed.
+
+     The Device example below specifies the sprinkler type.
+     
+     Devices must also specify a unique type_id - so, for instance, if you define
+     2 sprinkler type devices then your plugin can distinguish between the two by
+     the type_id.
+-->
+
+<Devices>
+    <!-- This device illustrates how a plugin can inherit Indigo's sprinkler
+    device behavior including active zone states, and sprinkler actions, and
+    will support Indigo and Indigo Touch's native UI for sprinkler type devices.
+    -->
+    <Device type="sprinkler" id="mySprinklerType">
+        <Name>Example Sprinkler Module</Name>
+        <ConfigUI>
+            <!-- The ConfigUI here is just an example of the type of device
+            specific UI that might be needed. Here you might specify a text
+            field for an IP address, a serial port popup, or other device
+            specific options.
+            -->
+            <Field type="textfield" id="address" defaultValue="123456">
+                <Label>Module Address:</Label>
+            </Field>
+
+            <!-- By default sprinkler type devices automatically inherit these
+            device properties which describe the characteristics of a specific
+            sprinkler instance:
+
+                NumZones            (integer)   UI currently supports up to 16 zones.
+                ZoneNames           (string)    optional comma delimited list of names.
+                MaxZoneDurations    (string)    optional comma delimited list of maximum zone durations.
+                PumpControlOn       (bool)      True if the last zone really controls a pump.
+
+            Plugins can update these properties either in device ConfigUI
+            (like below), or can update them from python by using the
+            dev.replacePluginPropsOnServer() method, most likely inside your
+            deviceStartComm method. Both will trigger the Indigo Server to
+            automatically rebuild the device's states list based on the needed
+            changes.
+            -->
+            <Field type="separator" id="simpleSeparator1" />
+            <Field type="menu" id="NumZones" defaultValue="4">
+                <Label>Number of zones:</Label>
+                <List>
+                    <Option value="4">4</Option>
+                    <Option value="6">6</Option>
+                    <Option value="8">8</Option>
+                    <Option value="12">12</Option>
+                    <Option value="16">16</Option>
+                </List>
+            </Field>
+            <Field type="textfield" id="ZoneNames" defaultValue="">
+                <Label>Zone names:</Label>
+            </Field>
+            <Field type="textfield" id="MaxZoneDurations" defaultValue="">
+                <Label>Maximum zone durations:</Label>
+            </Field>
+            <Field type="checkbox" id="PumpControlOn" defaultValue="false">
+                <Label>Enable pump control:</Label>
+                <Description>Last zone of controller is used as a pump</Description>
+            </Field>
+            <Field type="separator" id="simpleSeparator2" />
+
+            <!-- See the comment inside plugin.py for a description of the
+            OverrideScheduleActions property. It is recommended to use the
+            default value of False to let Indigo handle the higher level
+            scheduling and control of zones.
+            -->
+            <Field type="checkbox" id="OverrideScheduleActions" defaultValue="false">
+                <Label>Override schedule actions:</Label>
+                <Description>Plugin overrides high-level actions</Description>
+            </Field>
+        </ConfigUI>
+        <States>
+            <!-- By default sprinkler type devices automatically inherit the
+            read-only states:
+
+                zone1, zone2, ..., zoneN (all booleans)
+
+            Additionally, the following writable state is inherited:
+
+                activeZone (integer)
+
+            The Indigo Server automatically updates the read-only states (zone1, ...,
+            zoneN) when the writable state activeZone is updated.
+
+            The plugin can specify additional custom states and custom
+            actions (in Actions.xml) to modify custom states. As an example
+            here, we define a new custom state, backlightBrightness, which
+            is used to control the brightness of the backlit display of
+            the module.
+            -->
+            <State id="backlightBrightness">
+                <ValueType>Integer</ValueType>
+                <TriggerLabel>Backlight Brightness</TriggerLabel>
+                <ControlPageLabel>Backlight Brightness</ControlPageLabel>
+            </State>
+        </States>
+    </Device>
+</Devices>

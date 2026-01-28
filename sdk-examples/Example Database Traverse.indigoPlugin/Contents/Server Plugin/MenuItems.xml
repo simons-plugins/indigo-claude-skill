@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<MenuItems>
+    <MenuItem id="menu1">
+        <Name>Log Entire Database</Name>
+        <CallbackMethod>traverse_database</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu3">
+        <Name>Log Devices</Name>
+        <CallbackMethod>traverse_devices</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu4">
+        <Name>Log Triggers</Name>
+        <CallbackMethod>traverse_triggers</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu5">
+        <Name>Log Schedules</Name>
+        <CallbackMethod>traverse_schedules</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu6">
+        <Name>Log Action Groups</Name>
+        <CallbackMethod>traverse_action_groups</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu7">
+        <Name>Log Control Pages</Name>
+        <CallbackMethod>traverse_control_pages</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu8">
+        <Name>Log Variables</Name>
+        <CallbackMethod>traverse_variables</CallbackMethod>
+    </MenuItem>
+</MenuItems>

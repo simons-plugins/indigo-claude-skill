@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<PluginConfig>
+	<!-- You can add a SupportURL element inside here if you want a context
+		 sensitive help link on the config UI - otherwise it will just link
+		 to the URL specified in the AboutInformation element. -->
+    <URL>/message/com.indigodomo.indigoplugin.example-http-responder/config</URL>
+</PluginConfig>

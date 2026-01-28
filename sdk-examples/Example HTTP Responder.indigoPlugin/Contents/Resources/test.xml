@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <key2 type="list">
+        <item type="int">1</item>
+        <item type="int">2</item>
+    </key2>
+    <key1 type="str">value</key1>
+</root>

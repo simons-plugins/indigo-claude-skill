@@ -1,0 +1,12 @@
+body {
+  /*   padding-bottom: 40px; */
+  background: #F1F0F9;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.25;
+}
+.monospace {
+  font-family: monospace;
+  margin-left: 20px;
+}

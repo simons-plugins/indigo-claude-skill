@@ -49,11 +49,36 @@ Once installed, invoke the skill in Claude Code:
 ```
 
 The skill has access to:
-- Comprehensive documentation on plugin development
-- Code snippets and templates
-- Common patterns and best practices
+- **16 official SDK example plugins** - Complete, working examples
+- **Official SDK documentation** - Organized by topic
+- **Community documentation** - Guides and best practices
+- **Code snippets and templates** - Ready-to-use code
+- **Troubleshooting guides** - Common issues and solutions
+
+## What's Included
+
+### 📦 16 Official SDK Examples (`sdk-examples/`)
+Complete, production-quality example plugins from the official Indigo SDK:
+- **Device Types**: Custom, Relay, Dimmer, Thermostat, Sensor, Speed Control, Sprinkler, Energy Meter
+- **Integration**: HTTP Responder, Action API, Custom Broadcaster/Subscriber, Variable Subscriber
+- **Hardware**: INSTEON/X10, Z-Wave listeners
+- **Advanced**: Database Traverse, Device Factory
+
+See [`sdk-examples/README.md`](sdk-examples/README.md) for the complete catalog.
+
+### 📚 Official SDK Documentation (`docs/sdk/`)
+Complete Indigo SDK documentation organized by topic:
+- Getting started guides
+- Plugin development patterns
+- API reference materials
 - Troubleshooting guides
-- Example implementations
+
+### 📖 Community Documentation (`docs/`)
+Community-contributed guides and resources:
+- Plugin templates and snippets
+- Implementation patterns
+- Best practices
+- Additional examples
 
 ## Documentation
 

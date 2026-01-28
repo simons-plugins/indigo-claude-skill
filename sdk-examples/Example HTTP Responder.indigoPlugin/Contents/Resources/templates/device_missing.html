@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Device ID Not Found{% endblock %}
+
+{% block header_external_links %}
+    <link href="/{{ plugin.pluginId }}/static/css/config.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <p>Device with ID <strong>{{ device_id }}</strong> was not found. Make sure you have the correct ID and try again.</p>
+{% endblock %}

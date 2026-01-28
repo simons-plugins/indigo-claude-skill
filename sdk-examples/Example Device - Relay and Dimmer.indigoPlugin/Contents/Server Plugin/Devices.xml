@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<!-- If your plugin defines device types, you can define them here.
+
+     Devices must specify their type (via the type attribute):
+
+        relay (ON/OFF/STATUS)
+        dimmer (ON/OFF/DIM/BRIGHTEN/SET BRIGHTNESS/STATUS)
+        speedcontrol (ON/OFF/SET SPEED LEVEL/SET SPEED INDEX/INCREASE/DECREASE/STATUS)
+        sensor (ON/OFF/STATUS)
+        thermostat
+        sprinkler
+        custom
+
+     The first six inherit states, actions and events from Indigo. You can
+     also specify your own custom actions and additional states, if needed.
+
+     The two Device examples below specify the relay and dimmer types.
+     
+     Devices must also specify a unique type_id - so, for instance, if you define
+     2 relay type devices then your plugin can distinguish between the two by
+     the type_id.
+-->
+
+<Devices>
+    <!-- This device illustrates how a plugin can inherit Indigo's relay
+    device behavior including on/off states, relay actions (on/off/toggle),
+    and will support Indigo and Indigo Touch's native UI for relay type
+    devices.
+    -->
+    <Device type="relay" id="myRelayType">
+        <Name>Example Relay Module</Name>
+        <ConfigUI>
+            <!-- The ConfigUI here is just an example of the type of device
+            specific UI that might be needed. Here you might specify a text
+            field for an IP address, a serial port popup, or other device
+            specific options.
+            -->
+            <Field id="address" type="textfield" defaultValue="123456">
+                <Label>Module Address:</Label>
+            </Field>
+        </ConfigUI>
+        <States>
+            <!-- By default relay type devices automatically inherit the
+            state: onOffState.
+    
+            The plugin can specify additional custom states and custom
+            actions (in Actions.xml) to modify custom states. As an example
+            here, we define a new custom state, backlightBrightness, which
+            is used to control the brightness of the backlit display of
+            the module.
+            -->
+            <State id="backlightBrightness">
+                <ValueType>Integer</ValueType>
+                <TriggerLabel>Backlight Brightness</TriggerLabel>
+                <ControlPageLabel>Backlight Brightness</ControlPageLabel>
+            </State>
+        </States>
+    </Device>
+
+    <!-- This device illustrates how a plugin can inherit Indigo's dimmer
+    device behavior including on/off/brightness states, relay/dimmer
+    actions (on/off/toggle/set brightness/etc.), and will support Indigo
+    and Indigo Touch's native UI for relay/dimmer type devices.
+    -->
+    <Device type="dimmer" id="myDimmerType">
+        <Name>Example Dimmer Module</Name>
+        <ConfigUI>
+            <!-- The ConfigUI here is just an example of the type of device
+            specific UI that might be needed. Here you might specify a text
+            field for an IP address, a serial port popup, or other device
+            specific options.
+            -->
+            <Field id="address" type="textfield" defaultValue="123456">
+                <Label>Module Address:</Label>
+            </Field>
+        </ConfigUI>
+        <States>
+            <!-- By default dimmer type devices automatically inherit the
+            states: onOffState, brightnessLevel.
+    
+            The plugin can specify additional custom states and custom
+            actions (in Actions.xml) to modify custom states. As an example
+            here, we define a new custom state, backlightBrightness, which
+            is used to control the brightness of the backlit display of
+            the module.
+            -->
+            <State id="backlightBrightness">
+                <ValueType>Integer</ValueType>
+                <TriggerLabel>Backlight Brightness</TriggerLabel>
+                <ControlPageLabel>Backlight Brightness</ControlPageLabel>
+            </State>
+        </States>
+    </Device>
+
+    <!-- This device illustrates how a plugin can inherit Indigo's dimmer
+    device that uses RGB and White color levels.
+    -->
+    <Device type="dimmer" id="myColorType">
+        <Name>Example Color Module</Name>
+        <ConfigUI>
+            <!-- The ConfigUI here is just an example of the type of device
+            specific UI that might be needed. Here you might specify a text
+            field for an IP address, a serial port popup, or other device
+            specific options.
+            -->
+            <Field id="address" type="textfield" defaultValue="123456">
+                <Label>Module Address:</Label>
+            </Field>
+
+            <!-- By default dimmer type devices automatically inherit these
+            device properties which describe the characteristics of a specific
+            dimmer instance:
+
+                SupportsColor:                                True or False
+                -> SupportsRGB:                                True or False (requires SupportsColor to be True)
+                -> SupportsWhite:                            True or False (requires SupportsColor to be True)
+                   -> SupportsTwoWhiteLevels:                True or False (requires SupportsWhite to be True)
+                   -> SupportsTwoWhiteLevelsSimultaneously:    True or False (requires SupportsTwoWhiteLevels to be True)
+                   -> SupportsWhiteTemperature:                True or False (requires SupportsWhite to be True)
+                   -> SupportsRGBandWhiteSimultaneously:    True or False (requires SupportsRGB and SupportsWhite to be True)
+                   -> WhiteTemperatureMin:                    Optional integer value for minimum white color temperature
+                   -> WhiteTemperatureMax:                    Optional integer value for maximum white color temperature
+            
+            Plugins can update these properties either in device ConfigUI
+            (like below), or can update them from python by using the
+            dev.replacePluginPropsOnServer() method, most likely inside your
+            deviceStartComm method. Both will trigger the Indigo Server to
+            automatically rebuild the device's states list based on the needed
+            changes.
+
+            Two white level fields (SupportsTwoWhiteLevels) is used by some hardware
+            to mix cool and warm white levels. Other hardware provides this capability
+            by using a white temperature value (SupportsWhiteTemperature). The two
+            techniques are mutually exlcusive, so choosing to enable two white levels
+            will override (and not show) the white temperature UI.
+            -->
+            <Field type="separator" id="simpleSeparator1" />
+            <Field type="checkbox" id="SupportsRGB" defaultValue="true">
+                <Label>Supports RGB:</Label>
+                <Description>Shows RGB control and level fields in UI</Description>
+            </Field>
+            <Field type="separator" id="simpleSeparator2" />
+            <Field type="checkbox" id="SupportsWhite" defaultValue="true">
+                <Label>Supports White:</Label>
+                <Description>Shows White level fields in UI</Description>
+            </Field>
+            <Field type="checkbox" id="SupportsTwoWhiteLevels" defaultValue="false" enabledBindingId="SupportsWhite">
+                <Label>Supports White 2:</Label>
+                <Description>Shows Two White level fields in UI</Description>
+            </Field>
+            <Field type="label" id="whiteInfoField" fontColor="darkgray" fontSize="small">
+                <Label>Two white level fields are used by some hardware to mix cool and warm white levels. Other hardware provides this capability by using a white temperature value. The two techniques are mutually exlcusive, so choosing to enable two white levels will override (and not show) the white temperature UI.</Label>
+            </Field>
+            <Field type="checkbox" id="SupportsWhiteTemperature" defaultValue="false" enabledBindingId="SupportsWhite" visibleBindingId="SupportsTwoWhiteLevels" visibleBindingValue="false" alwaysUseInDialogHeightCalc="true">
+                <Label>Supports White Temp:</Label>
+                <Description>Shows White Temperature field in UI</Description>
+            </Field>
+            <Field type="textfield" id="WhiteTemperatureMin" defaultValue="1200" visibleBindingId="SupportsWhiteTemperature" visibleBindingValue="true" alwaysUseInDialogHeightCalc="true">
+                <Label>Minimum White Temperature:</Label>
+                <Description>Minimum White Temperature used on UI controls</Description>
+            </Field>
+            <Field type="textfield" id="WhiteTemperatureMax" defaultValue="6500" visibleBindingId="SupportsWhiteTemperature" visibleBindingValue="true" alwaysUseInDialogHeightCalc="true">
+                <Label>Maximum White Temperature:</Label>
+                <Description>Maximum White Temperature used on UI controls</Description>
+            </Field>
+
+        </ConfigUI>
+    </Device>
+
+    <!-- This device illustrates how a plugin can inherit Indigo's relay
+    device behavior with the lock sub-type, so that it shows the lock
+    icons and verbiage, and can be targetted by the lock/unlock actions.
+    -->
+    <Device type="relay" id="myLockType">
+        <Name>Example Lock Module</Name>
+        <ConfigUI>
+            <!-- The ConfigUI here is just an example of the type of device
+            specific UI that might be needed. Here you might specify a text
+            field for an IP address, a serial port popup, or other device
+            specific options.
+            -->
+            <Field id="address" type="textfield" defaultValue="123456">
+                <Label>Module Address:</Label>
+            </Field>
+        </ConfigUI>
+        <States>
+            <!-- By default relay type devices automatically inherit the
+            state: onOffState.
+    
+            The plugin can specify additional custom states and custom
+            actions (in Actions.xml) to modify custom states. As an example
+            here, we define a new custom state, backlightBrightness, which
+            is used to control the brightness of the backlit display of
+            the module.
+            -->
+            <State id="backlightBrightness">
+                <ValueType>Integer</ValueType>
+                <TriggerLabel>Backlight Brightness</TriggerLabel>
+                <ControlPageLabel>Backlight Brightness</ControlPageLabel>
+            </State>
+        </States>
+    </Device>
+</Devices>

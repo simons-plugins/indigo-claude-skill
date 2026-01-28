@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- If your plugin wants to add menu items to it's submenu off the new Extensions menu,
+     define them here. Each should have a unique menu id, a Name, and an Action. The last
+     is a method name in your python file that will be called when the user selects that
+     menu item. Note - nothing will be returned to the client, so if you need to communicate
+     back to the user you can post information into the Event Log.
+-->
+<MenuItems>
+    <MenuItem id="menu1">
+        <Name>Set All to 1 Temperature Sensor</Name>
+        <CallbackMethod>change_temp_sensor_count_to_1</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu2">
+        <Name>Set All to 2 Temperature Sensors</Name>
+        <CallbackMethod>change_temp_sensor_count_to_2</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu3">
+        <Name>Set All to 3 Temperature Sensors</Name>
+        <CallbackMethod>change_temp_sensor_count_to_3</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu4">
+        <Name>Set All to No Humidity Sensors</Name>
+        <CallbackMethod>change_humidity_sensor_count_to_0</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu5">
+        <Name>Set All to 1 Humidity Sensors</Name>
+        <CallbackMethod>change_humidity_sensor_count_to_1</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu6">
+        <Name>Set All to 2 Humidity Sensors</Name>
+        <CallbackMethod>change_humidity_sensor_count_to_2</CallbackMethod>
+    </MenuItem>
+    <MenuItem id="menu7">
+        <Name>Set All to 3 Humidity Sensors</Name>
+        <CallbackMethod>change_humidity_sensor_count_to_3</CallbackMethod>
+    </MenuItem>
+</MenuItems>

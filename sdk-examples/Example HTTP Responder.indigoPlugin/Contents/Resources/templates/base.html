@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% block title %}Example HTTP Responder Plugin Configuration{% endblock %}</title>
+    {% block header_external_links %}
+    {% endblock %}
+    {% block head_extras %}{% endblock %}
+</head>
+<body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+            <p class="footer">&copy; Copyright {{ year_string|default("2022") }} by <a href="https://www.indigodomo.com">Indigo Domotics</a>.</p>
+        {% endblock %}
+    </div>
+</body>
+</html>

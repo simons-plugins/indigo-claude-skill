@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>About Example Action API</title>
+    <link href="../css/test.css" rel="stylesheet">
+</head>
+<body>
+<h2>About Example Action API</h2>
+<p>This plugin illustrates how to create a simple API that other plugins can use to request something. In this case,
+the caller can ask for a device dictionary in various formats: yaml, xml, and json.</p>
+<p>You can also use this action from just like any other plugin action, in which case the device dict will be output to the Event
+Log window in the requested format.</p>
+<h3>Calling this action from another plugin or a script</h3>
+<p></p>
+<pre>
+# Use this code snippit in a script or other plugin to call the API this plugin defines
+# Get the plugin instance
+plugin = indigo.server.getPlugin("com.indigodomo.indigoplugin.example-action-api")
+if plugin.isEnabled():
+    # only proceed if the plugin is enabled
+    device_id = 123456  # id of the device info you want
+    props = {"format": "xml"}  # you want the info as XML
+    reply = plugin.executeAction("get_device_info", device_id, props)  # make the API call
+    # reply is an indigo.Dict, with keys "status" as a boolean representing whether it's a valid device and "deviceInfo"
+    # which contains (in this case) the XML that represents the device.
+</pre>
+<p>
+    Note that this example allows the action to be executed via UI configuration or via scripting. However, if your action
+    only makes sense when executed via scripting, or you just don't want it exposed in the Action UI, then you can flag
+    the action has hidden by including a uiPath with a value of "hidden":
+    <pre>&ltAction id="get_device_info" deviceFilter="indigo.devices" uiPath="hidden"&gt</pre>
+</p>
+</body>
+</html>

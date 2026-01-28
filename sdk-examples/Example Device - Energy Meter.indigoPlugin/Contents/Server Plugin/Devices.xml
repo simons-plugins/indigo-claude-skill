@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!-- If your plugin defines device types, you can define them here.
+
+     Devices must specify their type (via the type attribute):
+
+        relay (ON/OFF/STATUS)
+        dimmer (ON/OFF/DIM/BRIGHTEN/SET BRIGHTNESS/STATUS)
+        speedcontrol (ON/OFF/SET SPEED LEVEL/SET SPEED INDEX/INCREASE/DECREASE/STATUS)
+        sensor (ON/OFF/STATUS)
+        thermostat
+        sprinkler
+        custom
+
+     The first six inherit states, actions and events from Indigo. You can
+     also specify your own custom actions and additional states, if needed.
+
+     The Device examples below specifies the a custom type and also enables
+     the energy meter properties and states for the device. Note that
+     energy meter properties can be enabled for any device type.
+     
+     Devices must also specify a unique type_id - so, for instance, if you define
+     2 relay type devices then your plugin can distinguish between the two by
+     the type_id.
+-->
+
+<Devices>
+    <!-- This device illustrates how a plugin can inherit an energy meter's
+    device behavior including kWh and Watt states/actions.
+    -->
+    <Device type="custom" id="myEnergyCustomType">
+        <Name>Example Energy Meter</Name>
+        <ConfigUI>
+            <!-- The ConfigUI here is just an example of the type of device
+            specific UI that might be needed. Here you might specify a text
+            field for an IP address, a serial port popup, or other device
+            specific options.
+            -->
+            <Field id="address" type="textfield" defaultValue="123456">
+                <Label>Module Address:</Label>
+            </Field>
+
+            <!-- This hidden field forces property SupportsEnergyMeter to True
+            which enables the energy meter states and UI.
+            -->
+            <Field type="checkbox" id="SupportsEnergyMeter" defaultValue="true" hidden="true" />
+
+            <Field type="checkbox" id="SupportsPowerMeter" defaultValue="true">
+                <Label>Supports power load:</Label>
+                <Description>Show current power load (Watts) in UI</Description>
+            </Field>
+        </ConfigUI>
+        <States>
+            <!--
+            Because the device above sets the SupportsEnergyMeter property
+            to true, the device will automatically inherit the states:
+
+                accumEnergyTotal (kWh)
+                curEnergyLevel (W)      - only exists SupportsPowerMeter is True 
+    
+            The plugin can specify additional custom states and custom
+            actions (in Actions.xml) to modify custom states. As an example
+            here, we define a new custom state, backlightBrightness, which
+            is used to control the brightness of the backlit display of
+            the module.
+            -->
+            <State id="backlightBrightness">
+                <ValueType>Integer</ValueType>
+                <TriggerLabel>Backlight Brightness</TriggerLabel>
+                <ControlPageLabel>Backlight Brightness</ControlPageLabel>
+            </State>
+        </States>
+    </Device>
+</Devices>

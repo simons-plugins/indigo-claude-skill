@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Actions>
+    <Action id="handle_static_file_request" uiPath="hidden">
+        <Name>static file request</Name>
+        <CallbackMethod>handle_static_file_request</CallbackMethod>
+    </Action>
+    <Action id="config" uiPath="hidden">
+        <Name>example config web page</Name>
+        <CallbackMethod>sample_config</CallbackMethod>
+    </Action>
+    <Action id="api" uiPath="hidden">
+        <Name>simple api example</Name>
+        <CallbackMethod>api</CallbackMethod>
+    </Action>
+</Actions>

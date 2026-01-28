@@ -1,0 +1,38 @@
+The Resources directory may be included in a plugin. There are a few items in this directory that have special
+meaning if included. Otherwise, the files in this directory can be used for anything you like.
+
+The following directories, if included in the directory, will be automatically made available directly from HTTP from
+the Indigo Web Server (IWS):
+
+Resources/images/
+Resources/static/
+Resources/video/
+
+Any items in these directories will be available directly from IWS by specifying the URL like this but by substituting
+the plugin ID of your plugin:
+
+https://myreflector.indigodomo.net/com.indigodomo.indigoplugin.example-http-responder/images/test.png
+https://myreflector.indigodomo.net/com.indigodomo.indigoplugin.example-http-responder/static/html/test.html
+https://myreflector.indigodomo.net/com.indigodomo.indigoplugin.example-http-responder/static/css/test.css
+
+Note, anything served from these directories will need an authenticated connection by using HTTP authentication
+or by passing an api_key as part of the query string.
+
+We will also make available the following directory:
+
+Resources/public/
+
+at the URL:
+
+https://myreflector.indigodomo.net/com.indigodomo.indigoplugin.example-http-responder/public/public.txt
+
+if you need to serve content to anyone that asks for it without any authentication.
+
+Any other content in the Resources directory will not automatically be served by IWS. Of course, you can also use
+your Mac's bonjour name/IP address if on the local network or localhost if you're on the same Mac (just specify the
+correct port, 8176 by default).
+
+NOTE: if you add any of the above directories after you've deployed your plugin for testing, you will also need to
+bounce IWS:
+
+  indigo-restart-plugin com.indigodomo.webserver
