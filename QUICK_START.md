@@ -8,7 +8,7 @@ Get started with the Indigo Plugin Development Skill in 5 minutes!
 
 ```bash
 # Download and run the installer
-curl -fsSL https://raw.githubusercontent.com/indigo-community/indigo-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/simons-plugins/indigo-claude-skill/main/install.sh | bash
 ```
 
 ### Option 2: Manual Clone

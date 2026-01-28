@@ -41,8 +41,8 @@ Thank you for contributing! This skill helps the entire Indigo development commu
 
 ```bash
 # Fork on GitHub, then:
-git clone https://github.com/YOUR-USERNAME/indigo-skill.git
-cd indigo-skill
+git clone https://github.com/YOUR-USERNAME/indigo-claude-skill.git
+cd indigo-claude-skill
 git remote add upstream https://github.com/simons-plugins/indigo-claude-skill.git
 ```
 
