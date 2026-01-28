@@ -301,7 +301,7 @@ Now that you have a working plugin:
 - 📖 [Official Plugin Developer's Guide](https://www.indigodomo.com/docs/plugin_guide)
 - 📚 [Indigo Object Model Reference](https://www.indigodomo.com/docs/object_model_reference)
 - 💬 [Indigo Developer Forum](https://forums.indigodomo.com/viewforum.php?f=18)
-- 🔧 [GitHub: Indigo Skill Repository](https://github.com/indigo-community/indigo-skill)
+- 🔧 [GitHub: Indigo Skill Repository](https://github.com/simons-plugins/indigo-claude-skill)
 
 ---
 

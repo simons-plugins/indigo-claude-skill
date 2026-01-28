@@ -200,6 +200,6 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md).
 If you can't solve your issue:
 
 1. 📋 Check [Indigo Developer Forum](https://forums.indigodomo.com/viewforum.php?f=18)
-2. 💬 Ask in [GitHub Discussions](https://github.com/indigo-community/indigo-skill/discussions)
+2. 💬 Ask in [GitHub Discussions](https://github.com/simons-plugins/indigo-claude-skill/discussions)
 3. 📖 Review [Official Docs](https://www.indigodomo.com/docs/plugin_guide)
 4. 📧 Contact Indigo support for platform issues

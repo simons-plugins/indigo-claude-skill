@@ -43,7 +43,7 @@ Thank you for contributing! This skill helps the entire Indigo development commu
 # Fork on GitHub, then:
 git clone https://github.com/YOUR-USERNAME/indigo-skill.git
 cd indigo-skill
-git remote add upstream https://github.com/indigo-community/indigo-skill.git
+git remote add upstream https://github.com/simons-plugins/indigo-claude-skill.git
 ```
 
 ### 2. Create a Branch
@@ -269,8 +269,8 @@ def example_method(self):
 
 ## Questions?
 
-- Open a [Discussion](https://github.com/indigo-community/indigo-skill/discussions) for general questions
-- Open an [Issue](https://github.com/indigo-community/indigo-skill/issues) for bugs or feature requests
+- Open a [Discussion](https://github.com/simons-plugins/indigo-claude-skill/discussions) for general questions
+- Open an [Issue](https://github.com/simons-plugins/indigo-claude-skill/issues) for bugs or feature requests
 - Tag maintainers with @mention for urgent matters
 
 ## Code of Conduct
