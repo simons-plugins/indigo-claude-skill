@@ -1,0 +1,51 @@
+name: Validate Documentation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Validate Python snippets
+        run: |
+          echo "Checking Python syntax in snippets/"
+          find snippets -name "*.py" -exec python3 -m py_compile {} \;
+          echo "✓ All Python snippets have valid syntax"
+
+      - name: Check for broken links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/workflows/link-check-config.json'
+
+      - name: Validate markdown
+        uses: nosborn/github-action-markdown-cli@v3.3.0
+        with:
+          files: .
+          config_file: .markdownlint.json
+          ignore_files: node_modules/
+
+  spell-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Spell check
+        uses: rojopolis/spellcheck-github-actions@0.33.1
+        with:
+          config_path: .github/workflows/spellcheck-config.yml
