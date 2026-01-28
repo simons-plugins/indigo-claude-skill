@@ -14,7 +14,7 @@ This is a Claude Code skill that provides expert assistance for developing [Indi
 cd /path/to/your/indigo/project
 mkdir -p .claude/skills
 cd .claude/skills
-git clone https://github.com/indigo-community/indigo-skill.git indigo
+git clone https://github.com/simons-plugins/indigo-claude-skill.git indigo
 ```
 
 ### Option 2: Add as submodule
@@ -22,14 +22,14 @@ git clone https://github.com/indigo-community/indigo-skill.git indigo
 ```bash
 cd /path/to/your/indigo/project
 mkdir -p .claude/skills
-git submodule add https://github.com/indigo-community/indigo-skill.git .claude/skills/indigo
+git submodule add https://github.com/simons-plugins/indigo-claude-skill.git .claude/skills/indigo
 ```
 
 ### Option 3: Symlink (for multiple projects)
 
 ```bash
 # Clone once
-git clone https://github.com/indigo-community/indigo-skill.git ~/indigo-skill
+git clone https://github.com/simons-plugins/indigo-claude-skill.git ~/indigo-skill
 
 # Symlink in each project
 cd /path/to/your/indigo/project

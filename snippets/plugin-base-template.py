@@ -62,9 +62,9 @@ class Plugin(indigo.PluginBase):
         - Subscribe to Indigo events
         - Load persistent data
         - Validate configuration
-        """
-        super().startup()
 
+        Note: startup() is a pure callback - do NOT call super().startup()
+        """
         self.logger.info(f"{self.pluginDisplayName} {self.pluginVersion} starting")
 
         # Example: Initialize API client
@@ -80,14 +80,14 @@ class Plugin(indigo.PluginBase):
         - Close connections
         - Save persistent data
         - Clean up resources
+
+        Note: shutdown() is a pure callback - do NOT call super().shutdown()
         """
         self.logger.info(f"{self.pluginDisplayName} shutting down")
 
         # Example: Clean up resources
         # if hasattr(self, 'api_client'):
         #     self.api_client.close()
-
-        super().shutdown()
 
     def runConcurrentThread(self):
         """Background thread for periodic tasks.

@@ -93,6 +93,45 @@
            self.logger.exception(e)  # Log it!
    ```
 
+4. **AttributeError: 'super' object has no attribute 'startup' (or 'shutdown')**
+   ```
+   Error in plugin execution startup:
+   File "plugin.py", line 43, in startup
+   type: 'super' object has no attribute 'startup'
+   ```
+
+   **Cause**: Calling `super().startup()` or `super().shutdown()` when these methods don't exist in `indigo.PluginBase`
+
+   **Solution**: Remove the super() calls - these are pure callbacks:
+   ```python
+   # WRONG
+   def startup(self):
+       super().startup()  # Error!
+       self.logger.info("Starting")
+
+   def shutdown(self):
+       self.logger.info("Stopping")
+       super().shutdown()  # Error!
+
+   # RIGHT
+   def startup(self):
+       # No super() call needed
+       self.logger.info("Starting")
+
+   def shutdown(self):
+       # No super() call needed
+       self.logger.info("Stopping")
+   ```
+
+   **Note**: Only these methods need `super()` calls:
+   - ✅ `__init__()` - **REQUIRED**: `super().__init__(...)`
+   - ✅ `deviceStartComm()` - Recommended: `super().deviceStartComm(dev)`
+   - ✅ `deviceStopComm()` - Recommended: `super().deviceStopComm(dev)`
+   - ✅ `deviceUpdated()` - Recommended: `super().deviceUpdated(origDev, newDev)`
+   - ✅ `variableUpdated()` - Recommended: `super().variableUpdated(origVar, newVar)`
+   - ❌ `startup()` - **DO NOT** call super()
+   - ❌ `shutdown()` - **DO NOT** call super()
+
 ## Device Issues
 
 ### Device Won't Create
@@ -381,6 +420,90 @@ http://localhost:8176/message/com.example.plugin/api/device.json
 2. **Inefficient polling**
    - Poll less frequently
    - Use event subscriptions instead of polling when possible
+
+## API Integration Issues
+
+### 400 Bad Request: Malformed URL
+
+**Symptoms**: API calls fail with 400 Bad Request, URL has double question marks (`??`)
+
+**Example Error**:
+```
+400 Client Error: Bad Request for url:
+http://api.example.com/endpoint?param1=value1?key=abc123
+                                              ↑ Double ?
+```
+
+**Cause**: Adding `?key=...` to endpoint that already has query parameters
+
+**Solution**: Check if endpoint already has `?` before adding parameters
+```python
+# WRONG - Always uses ?
+url = f"{base_url}/{endpoint}"
+if api_key:
+    url += f"?key={api_key}"  # Breaks if endpoint has ?param=value
+
+# RIGHT - Check for existing query params
+url = f"{base_url}/{endpoint}"
+if api_key:
+    separator = "&" if "?" in endpoint else "?"
+    url += f"{separator}key={api_key}"
+```
+
+**Example**:
+```python
+# Good: handles both cases
+def make_api_call(self, endpoint, api_key=None):
+    url = f"{self.base_url}/{endpoint}"
+
+    if api_key:
+        # Use & if endpoint already has ?, otherwise use ?
+        separator = "&" if "?" in endpoint else "?"
+        url += f"{separator}key={api_key}"
+
+    return requests.get(url)
+
+# Works with both:
+make_api_call("info.json", api_key="abc123")
+# → http://api.example.com/info.json?key=abc123
+
+make_api_call("schedules.json?start_date=2024-01-01", api_key="abc123")
+# → http://api.example.com/schedules.json?start_date=2024-01-01&key=abc123
+```
+
+### API Rate Limiting
+
+**Best Practices**:
+- Respect documented rate limits
+- Implement exponential backoff on errors
+- Cache responses when possible
+- Use reasonable polling intervals (5+ minutes for status checks)
+- Monitor remaining quota if API provides it
+
+```python
+def _make_api_call(self, endpoint):
+    try:
+        response = requests.get(url, timeout=10)
+
+        if response.status_code == 429:
+            self.logger.warning("Rate limit exceeded")
+            # Consider backing off or caching more aggressively
+            return None
+
+        response.raise_for_status()
+        result = response.json()
+
+        # Log remaining quota if available
+        if "quota_remaining" in result:
+            remaining = result["quota_remaining"]
+            if remaining < 100:
+                self.logger.warning(f"Low API quota: {remaining} calls remaining")
+
+        return result
+    except requests.exceptions.Timeout:
+        self.logger.error("API timeout")
+        return None
+```
 
 ## Debugging Tips
 

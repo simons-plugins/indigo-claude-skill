@@ -67,7 +67,7 @@ def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs, **kw
 **Purpose**: Initialize resources, subscribe to events, start connections
 
 **Rules**:
-- ✅ Call `super().startup()` first (optional but recommended)
+- ❌ Do NOT call `super().startup()` (method doesn't exist in base class)
 - ✅ Initialize API connections
 - ✅ Subscribe to Indigo events
 - ✅ Load persistent data
@@ -76,8 +76,7 @@ def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs, **kw
 
 ```python
 def startup(self):
-    super().startup()
-
+    # Note: Do NOT call super().startup() - it doesn't exist
     self.logger.info(f"{self.pluginDisplayName} starting")
 
     # Now safe to access Indigo database
@@ -178,7 +177,7 @@ def runConcurrentThread(self):
 - ✅ Unsubscribe from events
 - ✅ Close files and sockets
 - ✅ Cancel timers
-- ✅ Call `super().shutdown()` last (optional but recommended)
+- ❌ Do NOT call `super().shutdown()` (method doesn't exist in base class)
 
 ```python
 def shutdown(self):
@@ -211,7 +210,7 @@ def shutdown(self):
         except Exception:
             pass
 
-    super().shutdown()
+    # Note: Do NOT call super().shutdown() - it doesn't exist
 ```
 
 **Best Practice**: Wrap cleanup operations in try/except blocks to ensure all cleanup happens even if one step fails.
@@ -364,8 +363,7 @@ def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs, **kw
     self.api_client = None  # Will initialize in startup()
 
 def startup(self):
-    super().startup()
-
+    # Note: Do NOT call super().startup() - it doesn't exist
     api_key = self.pluginPrefs.get("apiKey", "")
     if api_key:
         self.api_client = APIClient(api_key)
@@ -392,8 +390,7 @@ def shutdown(self):
     except Exception as exc:
         self.logger.exception("Error closing API client")
 
-    # Always call super
-    super().shutdown()
+    # Note: Do NOT call super().shutdown() - it doesn't exist
 ```
 
 ### Thread-Safe Polling
@@ -436,7 +433,7 @@ def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs, **kw
     self.debug = True  # Force debug on during development
 
 def startup(self):
-    super().startup()
+    # Note: Do NOT call super().startup() - it doesn't exist
     self.logger.debug("Startup called")
     self.logger.debug(f"Plugin prefs: {self.pluginPrefs}")
 ```
@@ -449,7 +446,7 @@ def __init__(self, *args, **kwargs):
     self.logger.debug("__init__ called")
 
 def startup(self):
-    super().startup()
+    # Note: Do NOT call super().startup() - it doesn't exist
     self.logger.debug("startup() called")
 
 def runConcurrentThread(self):
@@ -463,7 +460,7 @@ def runConcurrentThread(self):
 
 def shutdown(self):
     self.logger.debug("shutdown() called")
-    super().shutdown()
+    # Note: Do NOT call super().shutdown() - it doesn't exist
 ```
 
 ## Common Mistakes
@@ -485,27 +482,40 @@ def __init__(self, *args, **kwargs):
     self.my_device = None
 
 def startup(self):
-    super().startup()
+    # Note: Do NOT call super().startup() - it doesn't exist
     try:
         self.my_device = indigo.devices["MyDevice"]
     except KeyError:
         self.logger.error("MyDevice not found")
 ```
 
-### ❌ Forgetting to Call `super()`
+### ❌ Calling `super()` in Wrong Methods
 
 ```python
-# WRONG - Always call super()
+# WRONG - startup() doesn't have a parent implementation
 def startup(self):
-    self.logger.info("Starting")  # super().startup() not called!
+    super().startup()  # AttributeError!
+    self.logger.info("Starting")
+
+# WRONG - shutdown() doesn't have a parent implementation
+def shutdown(self):
+    super().shutdown()  # AttributeError!
 ```
 
 **Fix**:
 ```python
+# RIGHT - startup() is a pure callback
 def startup(self):
-    super().startup()  # Always call super first!
+    # No super() call needed
     self.logger.info("Starting")
+
+# RIGHT - shutdown() is a pure callback
+def shutdown(self):
+    # No super() call needed
+    self.logger.info("Shutting down")
 ```
+
+**Remember**: Only call `super()` in `__init__()` (required) and device callbacks like `deviceStartComm()` (recommended)
 
 ### ❌ Using `time.sleep()` in Concurrent Thread
 
@@ -561,18 +571,16 @@ def runConcurrentThread(self):
 ```python
 # WRONG - File left open
 def startup(self):
-    super().startup()
     self.log_file = open("/tmp/mylog.txt", "a")
 
 def shutdown(self):
-    super().shutdown()
     # Forgot to close file!
+    pass
 ```
 
 **Fix**:
 ```python
 def startup(self):
-    super().startup()
     self.log_file = open("/tmp/mylog.txt", "a")
 
 def shutdown(self):
@@ -581,14 +589,16 @@ def shutdown(self):
             self.log_file.close()
     except Exception as exc:
         self.logger.exception("Error closing log file")
-    super().shutdown()
+    # Note: Do NOT call super().shutdown() - it doesn't exist
 ```
 
 ## Resource Management Checklist
 
 - [ ] All instance variables initialized in `__init__()`
 - [ ] No Indigo database access in `__init__()`
-- [ ] `super()` called in all lifecycle methods
+- [ ] `super().__init__()` called in `__init__()` (required)
+- [ ] `super()` called in device callbacks like `deviceStartComm()` (recommended)
+- [ ] `super()` NOT called in `startup()` or `shutdown()`
 - [ ] Connections opened in `startup()`
 - [ ] Event subscriptions done in `startup()`
 - [ ] `self.sleep()` used (not `time.sleep()`) in `runConcurrentThread()`

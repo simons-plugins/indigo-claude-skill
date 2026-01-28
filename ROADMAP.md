@@ -202,7 +202,7 @@ Help us prioritize by voting on or contributing to these areas:
 
 Have an idea not on the roadmap?
 
-1. Open a [Discussion](https://github.com/indigo-community/indigo-skill/discussions)
+1. Open a [Discussion](https://github.com/simons-plugins/indigo-claude-skill/discussions)
 2. Explain the feature and why it's valuable
 3. Gather community feedback
 4. Create an issue if there's interest
@@ -234,8 +234,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## Questions?
 
-- 💬 Open a [Discussion](https://github.com/indigo-community/indigo-skill/discussions)
-- 📋 Review [existing issues](https://github.com/indigo-community/indigo-skill/issues)
+- 💬 Open a [Discussion](https://github.com/simons-plugins/indigo-claude-skill/discussions)
+- 📋 Review [existing issues](https://github.com/simons-plugins/indigo-claude-skill/issues)
 - 📧 Contact maintainers
 
 ---

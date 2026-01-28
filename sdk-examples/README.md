@@ -279,7 +279,7 @@ For older Indigo versions (Python 2.7), see the reference folder for migration g
 ## Getting Help
 
 - 📚 Check the [SDK Documentation](../docs/sdk/)
-- 💬 Ask in [GitHub Discussions](https://github.com/indigo-community/indigo-skill/discussions)
+- 💬 Ask in [GitHub Discussions](https://github.com/simons-plugins/indigo-claude-skill/discussions)
 - 🌐 Visit [Indigo Developer Forum](https://forums.indigodomo.com/viewforum.php?f=18)
 
 ## Contributing

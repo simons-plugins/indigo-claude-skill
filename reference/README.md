@@ -62,5 +62,5 @@ SDK-CLAUDE.md provides quick references that Claude can use for lookups.
 ## Questions?
 
 - 📚 Check the [main documentation](../docs/)
-- 💬 Ask in [Discussions](https://github.com/indigo-community/indigo-skill/discussions)
+- 💬 Ask in [Discussions](https://github.com/simons-plugins/indigo-claude-skill/discussions)
 - 🌐 Visit [Indigo Forum](https://forums.indigodomo.com/viewforum.php?f=18)

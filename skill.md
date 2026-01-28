@@ -1,6 +1,6 @@
 # Indigo Plugin Development Expert
 
-**Repository**: https://github.com/indigo-community/indigo-skill
+**Repository**: https://github.com/simons-plugins/indigo-claude-skill
 **Version**: 2025.1
 **Slash command**: `/indigo`
 
@@ -188,6 +188,6 @@ snippets/
 
 This skill is actively maintained by the Indigo community.
 
-- **Report issues**: https://github.com/indigo-community/indigo-skill/issues
-- **Contribute**: https://github.com/indigo-community/indigo-skill/pulls
-- **Discussions**: https://github.com/indigo-community/indigo-skill/discussions
+- **Report issues**: https://github.com/simons-plugins/indigo-claude-skill/issues
+- **Contribute**: https://github.com/simons-plugins/indigo-claude-skill/pulls
+- **Discussions**: https://github.com/simons-plugins/indigo-claude-skill/discussions

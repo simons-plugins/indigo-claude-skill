@@ -8,7 +8,7 @@ Get started with the Indigo Plugin Development Skill in 5 minutes!
 
 ```bash
 # Download and run the installer
-curl -fsSL https://raw.githubusercontent.com/indigo-community/indigo-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/simons-plugins/indigo-claude-skill/main/install.sh | bash
 ```
 
 ### Option 2: Manual Clone
@@ -16,7 +16,7 @@ curl -fsSL https://raw.githubusercontent.com/indigo-community/indigo-skill/main/
 ```bash
 cd /path/to/your/indigo/project
 mkdir -p .claude/skills
-git clone https://github.com/indigo-community/indigo-skill.git .claude/skills/indigo
+git clone https://github.com/simons-plugins/indigo-claude-skill.git .claude/skills/indigo
 ```
 
 ### Option 3: Git Submodule
@@ -24,7 +24,7 @@ git clone https://github.com/indigo-community/indigo-skill.git .claude/skills/in
 ```bash
 cd /path/to/your/indigo/project
 mkdir -p .claude/skills
-git submodule add https://github.com/indigo-community/indigo-skill.git .claude/skills/indigo
+git submodule add https://github.com/simons-plugins/indigo-claude-skill.git .claude/skills/indigo
 ```
 
 ## Verify Installation
@@ -246,7 +246,7 @@ git pull origin main
 
 Found the skill helpful? Consider contributing:
 
-1. **Report Issues**: Found incorrect info? [Open an issue](https://github.com/indigo-community/indigo-skill/issues)
+1. **Report Issues**: Found incorrect info? [Open an issue](https://github.com/simons-plugins/indigo-claude-skill/issues)
 2. **Add Documentation**: See [CONTRIBUTING.md](CONTRIBUTING.md)
 3. **Share Examples**: Your plugin could help others!
 4. **Improve Docs**: Fix typos, clarify explanations
@@ -255,8 +255,8 @@ Found the skill helpful? Consider contributing:
 
 - 📚 Read the full [README](README.md)
 - 📖 Browse [Documentation](docs/README.md)
-- 💬 Join [Discussions](https://github.com/indigo-community/indigo-skill/discussions)
-- 🐛 Report [Issues](https://github.com/indigo-community/indigo-skill/issues)
+- 💬 Join [Discussions](https://github.com/simons-plugins/indigo-claude-skill/discussions)
+- 🐛 Report [Issues](https://github.com/simons-plugins/indigo-claude-skill/issues)
 - 🌐 Visit [Indigo Forum](https://forums.indigodomo.com/viewforum.php?f=18)
 
 ---
