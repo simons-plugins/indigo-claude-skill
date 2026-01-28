@@ -84,21 +84,21 @@ Community-contributed guides and resources:
 
 All documentation is organized in the `docs/` directory:
 
-### 📚 [Getting Started](docs/getting-started/)
+### 📚 [Quick Start](docs/quick-start.md)
 New to Indigo plugin development? Start here!
 - Setting up your development environment
 - Creating your first plugin
 - Understanding plugin structure
 - Testing and debugging
 
-### 🏗️ [Core Concepts](docs/core-concepts/)
+### 🏗️ [Core Concepts](docs/concepts/)
 Understanding the architecture and lifecycle
 - Plugin lifecycle (init, startup, shutdown)
 - Device types (custom, relay, dimmer, sensor, thermostat)
 - State management
 - Concurrent thread patterns
 
-### 📖 [API Reference](docs/api-reference/)
+### 📖 [API Reference](docs/api/)
 Detailed API documentation
 - Plugin base class methods
 - Device object properties

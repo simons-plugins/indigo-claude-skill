@@ -239,7 +239,7 @@ def example_method(self):
 # Add: Comprehensive guide to device state management
 
 ## Changes
-- New document: `docs/core-concepts/state-management.md`
+- New document: `docs/concepts/state-management.md`
 - Covers state types, update patterns, and performance
 - Includes 5 code examples
 - Links to related API reference docs
