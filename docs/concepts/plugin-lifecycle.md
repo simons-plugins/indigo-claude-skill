@@ -596,7 +596,9 @@ def shutdown(self):
 
 - [ ] All instance variables initialized in `__init__()`
 - [ ] No Indigo database access in `__init__()`
-- [ ] `super()` called in all lifecycle methods
+- [ ] `super().__init__()` called in `__init__()` (required)
+- [ ] `super()` called in device callbacks like `deviceStartComm()` (recommended)
+- [ ] `super()` NOT called in `startup()` or `shutdown()`
 - [ ] Connections opened in `startup()`
 - [ ] Event subscriptions done in `startup()`
 - [ ] `self.sleep()` used (not `time.sleep()`) in `runConcurrentThread()`
