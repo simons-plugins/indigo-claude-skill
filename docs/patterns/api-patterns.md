@@ -2,46 +2,7 @@
 
 Common patterns for working with the Indigo Object Model.
 
-## Object Modification Pattern
-
-Objects retrieved from Indigo are copies. To modify, get a copy, change it, and push back.
-
-### Modify and Replace
-
-```python
-# Get a copy
-dev = indigo.devices[123456]
-
-# Modify locally
-dev.name = "New Device Name"
-dev.description = "Updated description"
-
-# Push to server
-dev.replaceOnServer()
-```
-
-### Refresh Local Copy
-
-```python
-dev = indigo.devices[123456]
-# ... time passes, device may have changed ...
-dev.refreshFromServer()
-# dev now has current server values
-```
-
-### Update Plugin Props
-
-```python
-# Get current props
-props = dev.pluginProps
-
-# Modify
-props["apiKey"] = "new-key"
-props["interval"] = 30
-
-# Push to server (don't use replaceOnServer for props)
-dev.replacePluginPropsOnServer(props)
-```
+For core concepts like client-server architecture, object modification, and `replaceOnServer()` patterns, see [IOM Architecture](../api/iom/architecture.md).
 
 ## Device State Updates
 
@@ -282,3 +243,9 @@ def poll(self):
     if dev.states['temperature'] != temp:
         dev.updateStateOnServer('temperature', value=temp)
 ```
+
+## See Also
+
+- [IOM Architecture](../api/iom/architecture.md) - Core concepts, replaceOnServer, pluginProps
+- [Device Classes](../api/iom/devices.md) - Device properties and methods
+- [Filters](../api/iom/filters.md) - Iteration patterns
