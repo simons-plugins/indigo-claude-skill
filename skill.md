@@ -19,6 +19,8 @@ Community-maintained expert assistant for Indigo home automation plugin developm
 | `docs/quick-start.md` | 9KB | Getting started |
 | `docs/concepts/plugin-lifecycle.md` | 12KB | Lifecycle methods |
 | `docs/concepts/devices.md` | 7KB | Device design (Devices.xml, ConfigUI) |
+| `docs/concepts/plugin-preferences.md` | 4KB | Plugin preferences (pluginPrefs) |
+| `docs/concepts/events.md` | 5KB | Custom trigger events (Events.xml) |
 | `docs/api/indigo-object-model.md` | 3KB | API overview and quick reference |
 | `docs/examples/sdk-examples-guide.md` | 8KB | Example catalog |
 | `docs/troubleshooting/common-issues.md` | 11KB | Troubleshooting |
@@ -57,6 +59,8 @@ These are complementary - load based on question type:
 | Device properties, methods | `docs/api/iom/devices.md` |
 | State updates, replaceOnServer | `docs/patterns/api-patterns.md` |
 | Plugin lifecycle | `docs/concepts/plugin-lifecycle.md` |
+| Plugin preferences, pluginPrefs | `docs/concepts/plugin-preferences.md` |
+| Custom events, Events.xml | `docs/concepts/events.md` |
 | Filters/iteration | `docs/api/iom/filters.md` |
 | Subscriptions | `docs/api/iom/subscriptions.md` |
 
@@ -71,6 +75,12 @@ These are complementary - load based on question type:
 **"Debug error" / "Plugin not working"**
 1. Read `docs/troubleshooting/common-issues.md`
 2. If lifecycle issue: Read `docs/concepts/plugin-lifecycle.md`
+
+**"How do I save plugin settings?"**
+1. Read `docs/concepts/plugin-preferences.md`
+
+**"How do I create trigger events?"**
+1. Read `docs/concepts/events.md`
 
 **"How do I update device state?"**
 1. Read `docs/patterns/api-patterns.md`
@@ -102,16 +112,18 @@ docs/
 ├── quick-start.md                 # Getting started (9KB)
 ├── concepts/
 │   ├── plugin-lifecycle.md        # Lifecycle methods (12KB)
-│   └── devices.md                 # Device design (7KB)
+│   ├── devices.md                 # Device design (7KB)
+│   ├── plugin-preferences.md      # Plugin prefs (4KB)
+│   └── events.md                  # Custom events (5KB)
 ├── api/
 │   ├── indigo-object-model.md     # Overview (3KB)
-│   └── iom/                       # Modular reference (~35KB total)
-│       ├── architecture.md        # Core concepts (4KB)
+│   └── iom/                       # Modular reference (~40KB total)
+│       ├── architecture.md        # Core concepts (5KB)
 │       ├── command-namespaces.md  # Commands (5KB)
 │       ├── devices.md             # Device classes (5KB)
 │       ├── triggers.md            # Trigger classes (4KB)
 │       ├── filters.md             # Iteration (4KB)
-│       ├── subscriptions.md       # Callbacks (4KB)
+│       ├── subscriptions.md       # Callbacks (6KB)
 │       ├── constants.md           # Icons/enums (4KB)
 │       ├── containers.md          # Dict/List (3KB)
 │       └── utilities.md           # Helpers (4KB)
@@ -138,7 +150,7 @@ snippets/
 ## Best Practices
 
 ### Code Quality
-- ✅ Always call `super()` in all lifecycle methods
+- ✅ Always call `super()` in `__init__()` (but NOT in startup/shutdown)
 - ✅ Use `self.sleep()` NOT `time.sleep()` in concurrent threads
 - ✅ Validate all user input
 - ✅ Log appropriately: `self.logger.debug/info/error/exception()`

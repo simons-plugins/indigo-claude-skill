@@ -12,7 +12,7 @@ Optimized documentation for building Indigo plugins.
 
 | Section | Purpose |
 |---------|---------|
-| [Concepts](concepts/) | Architectural concepts (plugin lifecycle, device design) |
+| [Concepts](concepts/) | Plugin lifecycle, devices, events, preferences |
 | [API Reference](api/) | Indigo Object Model reference |
 | [Patterns](patterns/) | Implementation patterns and best practices |
 | [Examples](examples/) | SDK example plugin catalog |
@@ -37,6 +37,14 @@ Optimized documentation for building Indigo plugins.
 ### "How do I update device state?"
 
 → [Patterns → API Patterns](patterns/api-patterns.md#device-state-updates)
+
+### "How do I save plugin preferences?"
+
+→ [Concepts → Plugin Preferences](concepts/plugin-preferences.md)
+
+### "How do I create custom trigger events?"
+
+→ [Concepts → Custom Events](concepts/events.md)
 
 ### "How do I iterate/filter devices?"
 
@@ -79,6 +87,8 @@ Optimized documentation for building Indigo plugins.
 | "How do I create a device?" | `concepts/devices.md` |
 | "What properties does a device have?" | `api/iom/devices.md` |
 | "How do I update state?" | `patterns/api-patterns.md` |
+| "How do I save settings?" | `concepts/plugin-preferences.md` |
+| "How do I create trigger events?" | `concepts/events.md` |
 | "Show me an example" | Specific example from `sdk-examples/` |
 
 ### Modular IOM Files
@@ -95,6 +105,15 @@ The IOM documentation is split into focused files (~4KB each):
 | Constants/icons | `api/iom/constants.md` |
 | indigo.Dict/List | `api/iom/containers.md` |
 | Utility functions | `api/iom/utilities.md` |
+
+### Concept Files
+
+| Topic | File |
+|-------|------|
+| Plugin lifecycle | `concepts/plugin-lifecycle.md` |
+| Device development | `concepts/devices.md` |
+| Plugin preferences | `concepts/plugin-preferences.md` |
+| Custom events | `concepts/events.md` |
 
 Load only the specific topic needed.
 

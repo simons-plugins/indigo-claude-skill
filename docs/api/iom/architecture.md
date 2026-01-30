@@ -32,11 +32,13 @@ Every top-level object has a **globally unique integer ID**:
 - **Always store IDs, never names** (names can change)
 
 ```python
-# All equivalent
-indigo.device.turnOn(123456)
-indigo.device.turnOn(dev)
-indigo.device.turnOn("Living Room Lamp")  # Not recommended for storage
+# All equivalent - but ID is preferred
+indigo.device.turnOn(123456)           # Best - ID
+indigo.device.turnOn(dev)              # Good - object reference
+indigo.device.turnOn("Living Room")    # Avoid - name can change
 ```
+
+**Tip**: Control-click on any object in Indigo's Main Window to copy its ID.
 
 ## replaceOnServer Pattern
 
@@ -65,15 +67,74 @@ dev.refreshFromServer()
 # dev now has current server values
 ```
 
-## Plugin Props
+## Plugin Props (pluginProps)
 
-Plugin properties (`pluginProps`) are read-write for the owning plugin, read-only for scripts.
+Every Indigo object supports plugin-specific metadata via `pluginProps`.
+
+### Access Rules
+
+| Context | Access |
+|---------|--------|
+| Plugin's own objects | Read/Write |
+| Scripts | Read-only |
+| Other plugins | Read-only (via globalProps) |
+
+### Supported Value Types
+
+- Numbers (int, float)
+- Booleans
+- Strings
+- `indigo.Dict()`
+- `indigo.List()`
+
+### Reading pluginProps
 
 ```python
-# Plugin updating its own device props
+dev = indigo.devices[123456]  # Use ID, not name
+
+# Direct access
+address = dev.pluginProps["address"]
+
+# Safe access with default
+interval = dev.pluginProps.get("pollingInterval", 60)
+```
+
+### Writing pluginProps
+
+```python
+dev = indigo.devices[123456]
+
+# Get current props
 newProps = dev.pluginProps
-newProps["someKey"] = "newValue"
+
+# Modify
+newProps["onCycles"] = 5
+newProps["lastUpdate"] = str(datetime.now())
+newProps["customData"] = {"key": "value"}
+
+# Push to server
 dev.replacePluginPropsOnServer(newProps)
+```
+
+### Incrementing Values
+
+```python
+dev = indigo.devices[123456]
+newProps = dev.pluginProps
+newProps["onCycles"] = newProps.get("onCycles", 0) + 1
+dev.replacePluginPropsOnServer(newProps)
+```
+
+### globalProps (Cross-Plugin Access)
+
+Plugins have read-only access to other plugins' props:
+
+```python
+dev = indigo.devices[123456]
+
+# Access another plugin's data (read-only)
+other_plugin_data = dev.globalProps.get("com.other.plugin", {})
+some_value = other_plugin_data.get("someKey")
 ```
 
 ## Built-in Collection Objects
@@ -122,6 +183,23 @@ Iterate over just the IDs (more efficient when you only need IDs):
 for dev_id in indigo.devices.iterkeys():
     # process just the ID without loading the full object
     pass
+```
+
+## self vs indigo.activePlugin
+
+In plugin.py methods, `self` refers to the Plugin instance:
+
+```python
+class Plugin(indigo.PluginBase):
+    def startup(self):
+        self.logger.info("Starting")  # self is the Plugin
+```
+
+Outside plugin methods, use `indigo.activePlugin`:
+
+```python
+# In a script or embedded Python
+indigo.activePlugin.logger.info("Message")
 ```
 
 ## Common Exceptions
