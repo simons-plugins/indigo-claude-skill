@@ -1,6 +1,6 @@
 # Device Development
 
-**Official Documentation**: https://www.indigodomo.com/docs/plugin_guide#devices
+**Official Documentation**: https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:plugin_guide#devices
 
 ## Device Types
 
@@ -19,8 +19,6 @@ These inherit states and actions from Indigo:
 | `thermostat` | Full HVAC control | Climate control | Smart thermostats |
 | `sprinkler` | Zone control | Irrigation | Sprinkler systems |
 
-**Example**: [../IndigoSDK-2025.1/Example Device - Relay and Dimmer.indigoPlugin](../IndigoSDK-2025.1/Example%20Device%20-%20Relay%20and%20Dimmer.indigoPlugin)
-
 ### Custom Device Type
 
 Complete control over states and actions:
@@ -36,8 +34,6 @@ Complete control over states and actions:
     </States>
 </Device>
 ```
-
-**Example**: [../IndigoSDK-2025.1/Example Device - Custom.indigoPlugin](../IndigoSDK-2025.1/Example%20Device%20-%20Custom.indigoPlugin)
 
 ## Device Definition (Devices.xml)
 
@@ -80,20 +76,12 @@ States store device data and can trigger events:
         <TriggerLabel>Status Message</TriggerLabel>
         <ControlPageLabel>Status</ControlPageLabel>
     </State>
-    <State id="separator1">
-        <ValueType>Separator</ValueType>
-    </State>
 </States>
 ```
 
-**Value Types**:
-- `Integer` - Whole numbers
-- `Number` - Floating point
-- `String` - Text
-- `Boolean` - True/False
-- `Separator` - Visual separator in UI
+**Value Types**: `Integer`, `Number`, `String`, `Boolean`, `Separator`
 
-### Configuration UI
+### Configuration UI (ConfigUI)
 
 ```xml
 <ConfigUI>
@@ -116,134 +104,16 @@ States store device data and can trigger events:
 </ConfigUI>
 ```
 
-**Field Types**:
-- `textfield` - Single line text
-- `textarea` - Multi-line text
-- `checkbox` - Boolean checkbox
-- `menu` - Dropdown menu
-- `list` - Selection list
-- `button` - Action button
-- `label` - Static text/instructions
-- `separator` - Visual divider
+**Field Types**: `textfield`, `textarea`, `checkbox`, `menu`, `list`, `button`, `label`, `separator`
 
-## Device Lifecycle Callbacks
+## Device Lifecycle
 
-### Device Creation/Start
+Device lifecycle callbacks are documented in [Plugin Lifecycle → Device Callbacks](plugin-lifecycle.md#device-lifecycle-callbacks).
 
-```python
-def deviceStartComm(self, dev):
-    """
-    Called when device communication should start:
-    - When device is created
-    - When device is enabled
-    - When plugin starts and device is enabled
-    """
-    self.logger.debug(f"Starting device: {dev.name}")
-
-    # Refresh state list if Devices.xml changed
-    dev.stateListOrDisplayStateIdChanged()
-
-    # Initialize hardware connection
-    address = dev.pluginProps.get('address', '')
-    self.connect_to_device(address)
-
-    # Set initial state
-    dev.updateStateOnServer('status', value='initializing')
-```
-
-### Device Stop
-
-```python
-def deviceStopComm(self, dev):
-    """
-    Called when device communication should stop:
-    - When device is disabled
-    - When device is deleted
-    - When plugin is shutting down
-    """
-    self.logger.debug(f"Stopping device: {dev.name}")
-
-    # Clean up device-specific resources
-    self.disconnect_from_device(dev)
-
-    # Clear states if desired
-    dev.updateStateOnServer('status', value='offline')
-```
-
-### Device Updates
-
-```python
-def deviceCreated(self, dev):
-    """Called when a new device is created"""
-    self.logger.debug(f"Device created: {dev.name}")
-
-def deviceUpdated(self, orig_dev, new_dev):
-    """
-    Called when device configuration changes
-
-    :param orig_dev: Device before changes
-    :param new_dev: Device after changes
-    """
-    self.logger.debug(f"Device updated: {new_dev.name}")
-
-    # Check if critical config changed
-    if orig_dev.pluginProps['address'] != new_dev.pluginProps['address']:
-        # Reconnect to new address
-        self.reconnect_device(new_dev)
-
-def deviceDeleted(self, dev):
-    """Called when device is deleted"""
-    self.logger.debug(f"Device deleted: {dev.name}")
-    # Clean up any persistent data
-```
-
-## Updating Device States
-
-### Single State Update
-
-```python
-dev.updateStateOnServer('temperature', value=72.5)
-dev.updateStateOnServer('status', value='online')
-dev.updateStateOnServer('isOnline', value=True)
-```
-
-### Multiple States (More Efficient)
-
-```python
-key_value_list = [
-    {'key': 'temperature', 'value': 72.5, 'decimalPlaces': 1},
-    {'key': 'humidity', 'value': 45.2, 'decimalPlaces': 1},
-    {'key': 'status', 'value': 'online'},
-    {'key': 'lastUpdate', 'value': str(datetime.now())}
-]
-dev.updateStatesOnServer(key_value_list)
-```
-
-### UI Error States
-
-```python
-# Set error state with message
-dev.setErrorStateOnServer("Connection failed")
-
-# Clear error state
-dev.setErrorStateOnServer(None)
-```
-
-### State Icons
-
-```python
-# Common state icons
-dev.updateStateImageOnServer(indigo.kStateImageSel.SensorOn)
-dev.updateStateImageOnServer(indigo.kStateImageSel.SensorOff)
-dev.updateStateImageOnServer(indigo.kStateImageSel.SensorTripped)
-dev.updateStateImageOnServer(indigo.kStateImageSel.TimerOn)
-dev.updateStateImageOnServer(indigo.kStateImageSel.PowerOn)
-dev.updateStateImageOnServer(indigo.kStateImageSel.PowerOff)
-dev.updateStateImageOnServer(indigo.kStateImageSel.Error)
-
-# No icon (Python 3)
-dev.updateStateImageOnServer(indigo.kStateImageSel.NoImage)
-```
+Key callbacks:
+- `deviceStartComm(dev)` - Initialize device communication
+- `deviceStopComm(dev)` - Clean up device resources
+- `deviceUpdated(origDev, newDev)` - Handle configuration changes
 
 ## Configuration Validation
 
@@ -260,8 +130,6 @@ def validateDeviceConfigUi(self, values_dict, type_id, dev_id):
     address = values_dict.get('address', '').strip()
     if not address:
         errors_dict['address'] = "Address is required"
-    elif not self.is_valid_address(address):
-        errors_dict['address'] = "Invalid address format"
 
     # Validate polling interval
     try:
@@ -283,11 +151,7 @@ Populate configuration fields dynamically:
 
 ```python
 def get_device_list(self, filter="", values_dict=None, type_id="", target_id=0):
-    """
-    Return list of available devices for dropdown
-
-    :return: List of tuples (value, display_name)
-    """
+    """Return list of available devices for dropdown"""
     device_list = []
     for dev in indigo.devices:
         if dev.id != target_id:  # Don't include self
@@ -302,24 +166,24 @@ def get_device_list(self, filter="", values_dict=None, type_id="", target_id=0):
 </Field>
 ```
 
-## Accessing Device Properties
+## Device Properties
+
+For complete device class reference including all properties and methods, see [API → IOM → Devices](../api/iom/devices.md).
+
+Common access patterns:
 
 ```python
 # Plugin-defined properties (from ConfigUI)
 address = dev.pluginProps.get('address', '')
-interval = dev.pluginProps.get('pollingInterval', 60)
 
 # Device states
 temp = dev.states['temperature']
-status = dev.states.get('status', 'unknown')
 
 # Built-in properties
 dev.id              # Unique device ID
 dev.name            # Device name
 dev.deviceTypeId    # Type ID from Devices.xml
 dev.enabled         # Is device enabled?
-dev.configured      # Is device configured?
-dev.description     # Device description
 ```
 
 ## Best Practices
@@ -327,36 +191,25 @@ dev.description     # Device description
 ### State Design
 - Use descriptive state IDs: `temperatureSensor1` not `temp1`
 - Choose appropriate value types for your data
-- Use separators to group related states
 - Set `UiDisplayStateId` to most important state
 
 ### Device Communication
 - Initialize connections in `deviceStartComm()`
 - Clean up in `deviceStopComm()`
 - Handle device offline gracefully
-- Update states only when values change to reduce database writes
 
 ### Configuration
 - Provide sensible defaults
 - Validate all user input
-- Give helpful error messages
 - Use dynamic lists for device/variable selection
 
 ### Performance
-- Batch state updates when possible
-- Don't poll devices too frequently
-- Cache device references if accessed frequently
+- Batch state updates with `updateStatesOnServer()`
+- Update states only when values change
 - Use `indigo.devices.iter("self")` to iterate only your plugin's devices
 
-## Example Plugins
+## See Also
 
-- **Simple Custom Device**: [../IndigoSDK-2025.1/Example Device - Custom.indigoPlugin](../IndigoSDK-2025.1/Example%20Device%20-%20Custom.indigoPlugin)
-- **Relay/Dimmer**: [../IndigoSDK-2025.1/Example Device - Relay and Dimmer.indigoPlugin](../IndigoSDK-2025.1/Example%20Device%20-%20Relay%20and%20Dimmer.indigoPlugin)
-- **Thermostat**: [../IndigoSDK-2025.1/Example Device - Thermostat.indigoPlugin](../IndigoSDK-2025.1/Example%20Device%20-%20Thermostat.indigoPlugin)
-- **Sensor**: [../IndigoSDK-2025.1/Example Device - Sensor.indigoPlugin](../IndigoSDK-2025.1/Example%20Device%20-%20Sensor.indigoPlugin)
-
-## Official References
-
-- [Plugin Developer's Guide - Devices](https://www.indigodomo.com/docs/plugin_guide#devices)
-- [Plugin Developer's Guide - Device XML](https://www.indigodomo.com/docs/plugin_guide#devices_xml)
-- [Object Model Reference - Device Class](https://www.indigodomo.com/docs/object_model_reference#device)
+- [Device Classes Reference](../api/iom/devices.md) - Device properties and methods
+- [Plugin Lifecycle](plugin-lifecycle.md) - Lifecycle callbacks
+- [Constants Reference](../api/iom/constants.md) - State icons

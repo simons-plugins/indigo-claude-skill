@@ -1,0 +1,284 @@
+# Indigo API Patterns
+
+Common patterns for working with the Indigo Object Model.
+
+## Object Modification Pattern
+
+Objects retrieved from Indigo are copies. To modify, get a copy, change it, and push back.
+
+### Modify and Replace
+
+```python
+# Get a copy
+dev = indigo.devices[123456]
+
+# Modify locally
+dev.name = "New Device Name"
+dev.description = "Updated description"
+
+# Push to server
+dev.replaceOnServer()
+```
+
+### Refresh Local Copy
+
+```python
+dev = indigo.devices[123456]
+# ... time passes, device may have changed ...
+dev.refreshFromServer()
+# dev now has current server values
+```
+
+### Update Plugin Props
+
+```python
+# Get current props
+props = dev.pluginProps
+
+# Modify
+props["apiKey"] = "new-key"
+props["interval"] = 30
+
+# Push to server (don't use replaceOnServer for props)
+dev.replacePluginPropsOnServer(props)
+```
+
+## Device State Updates
+
+### Single State
+
+```python
+dev.updateStateOnServer('temperature', value=72.5)
+
+# With UI display value
+dev.updateStateOnServer('temperature', value=72.5, uiValue="72.5°F")
+```
+
+### Batch Updates (Preferred)
+
+More efficient than multiple single updates:
+
+```python
+states = [
+    {'key': 'temperature', 'value': 72.5, 'uiValue': '72.5°F'},
+    {'key': 'humidity', 'value': 45},
+    {'key': 'status', 'value': 'online'},
+    {'key': 'lastUpdate', 'value': str(datetime.now())}
+]
+dev.updateStatesOnServer(states)
+```
+
+### With Decimal Places
+
+```python
+states = [
+    {'key': 'temperature', 'value': 72.5, 'decimalPlaces': 1},
+    {'key': 'humidity', 'value': 45.234, 'decimalPlaces': 2}
+]
+dev.updateStatesOnServer(states)
+```
+
+### Error States
+
+```python
+# Set error (displays in UI)
+dev.setErrorStateOnServer("Connection failed")
+
+# Clear error
+dev.setErrorStateOnServer(None)
+```
+
+### State Icons
+
+```python
+# Update icon based on state
+if dev.onState:
+    dev.updateStateImageOnServer(indigo.kStateImageSel.SensorOn)
+else:
+    dev.updateStateImageOnServer(indigo.kStateImageSel.SensorOff)
+
+# Error icon
+dev.updateStateImageOnServer(indigo.kStateImageSel.Error)
+```
+
+## Object Access Patterns
+
+### By ID (Preferred)
+
+```python
+dev = indigo.devices[123456]
+var = indigo.variables[789012]
+```
+
+### By Name (Not Recommended for Storage)
+
+```python
+dev = indigo.devices["Living Room Lamp"]
+```
+
+### Safe Access with Existence Check
+
+```python
+if 123456 in indigo.devices:
+    dev = indigo.devices[123456]
+else:
+    self.logger.error("Device not found")
+```
+
+### Using get() for Variables
+
+```python
+# Returns None if not found
+var = indigo.variables.get("MyVariable")
+if var:
+    value = var.value
+```
+
+## Iteration Patterns
+
+### All Objects
+
+```python
+for dev in indigo.devices:
+    self.logger.info(dev.name)
+```
+
+### Plugin's Own Devices
+
+```python
+for dev in indigo.devices.iter("self"):
+    self.update_device(dev)
+```
+
+### Specific Device Type
+
+```python
+for dev in indigo.devices.iter("self.myThermostat"):
+    self.poll_thermostat(dev)
+```
+
+### By Protocol
+
+```python
+for dev in indigo.devices.iter("indigo.insteon"):
+    self.logger.info(f"INSTEON: {dev.address}")
+```
+
+### IDs Only (More Efficient)
+
+```python
+for dev_id in indigo.devices.iterkeys():
+    # Process without loading full device
+    name = indigo.devices.getName(dev_id)
+```
+
+## Variable Patterns
+
+### Create Variable
+
+```python
+try:
+    var = indigo.variable.create("MyPluginStatus", value="initialized")
+except:
+    # Variable already exists
+    var = indigo.variables["MyPluginStatus"]
+```
+
+### Update Variable
+
+```python
+indigo.variable.updateValue(var.id, value="running")
+# or
+indigo.variable.updateValue("MyPluginStatus", value="running")
+```
+
+### Safe Variable Access
+
+```python
+def get_variable_value(self, name, default=""):
+    """Safely get variable value with default"""
+    try:
+        return indigo.variables[name].value
+    except KeyError:
+        return default
+```
+
+## Action Group Execution
+
+```python
+# By ID
+indigo.actionGroup.execute(123456)
+
+# By name
+ag = indigo.actionGroups["Morning Routine"]
+indigo.actionGroup.execute(ag.id)
+```
+
+## Logging Patterns
+
+### Standard Logging
+
+```python
+self.logger.debug("Detailed info for debugging")
+self.logger.info("Normal operational info")
+self.logger.warning("Something unexpected but recoverable")
+self.logger.error("Error that needs attention")
+```
+
+### Server Log (Visible in Event Log)
+
+```python
+indigo.server.log("Message visible in Event Log")
+indigo.server.log("Error message", isError=True)
+```
+
+## JSON Serialization
+
+```python
+import json
+
+# Serialize device with proper date handling
+dev_dict = dict(dev)
+json_str = json.dumps(dev_dict, indent=2, cls=indigo.utils.IndigoJSONEncoder)
+```
+
+## Common Anti-Patterns
+
+### Don't Store Names
+
+```python
+# BAD - name can change
+self.device_name = "Living Room Lamp"
+
+# GOOD - ID is permanent
+self.device_id = 123456
+```
+
+### Don't Modify Cached Objects
+
+```python
+# BAD - changes lost
+dev = indigo.devices[123456]
+dev.name = "New Name"
+# forgot replaceOnServer()
+
+# GOOD
+dev = indigo.devices[123456]
+dev.name = "New Name"
+dev.replaceOnServer()
+```
+
+### Don't Update States Unnecessarily
+
+```python
+# BAD - updates even when unchanged
+def poll(self):
+    temp = self.read_temperature()
+    dev.updateStateOnServer('temperature', value=temp)
+
+# GOOD - only update on change
+def poll(self):
+    temp = self.read_temperature()
+    if dev.states['temperature'] != temp:
+        dev.updateStateOnServer('temperature', value=temp)
+```

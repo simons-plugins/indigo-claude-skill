@@ -10,184 +10,159 @@ Community-maintained expert assistant for Indigo home automation plugin developm
 
 ## CRITICAL: Context Optimization Strategy
 
-**DO NOT load all files.** This skill contains 1.3MB of SDK examples. Use Read tool selectively:
+**DO NOT load all files.** This skill contains 1.3MB of SDK examples. Use Read tool selectively.
 
-✅ **Safe to load** (small files):
-- `docs/quick-start.md` (9KB) - Getting started guide
-- `docs/concepts/plugin-lifecycle.md` (12KB) - Lifecycle reference
-- `docs/concepts/devices.md` (11KB) - Device development
-- `docs/api/indigo-object-model.md` (9KB) - API reference
-- `docs/examples/sdk-examples-guide.md` (8KB) - Example catalog
-- `docs/troubleshooting/common-issues.md` (11KB) - Troubleshooting
+### Safe to Load (Small Files)
 
-❌ **NEVER load all at once**:
-- `sdk-examples/` - 16 complete plugins (1.3MB total) - Load ONLY specific example when needed
+| File | Size | Use For |
+|------|------|---------|
+| `docs/quick-start.md` | 9KB | Getting started |
+| `docs/concepts/plugin-lifecycle.md` | 12KB | Lifecycle methods |
+| `docs/concepts/devices.md` | 7KB | Device design (Devices.xml, ConfigUI) |
+| `docs/api/indigo-object-model.md` | 3KB | API overview and quick reference |
+| `docs/examples/sdk-examples-guide.md` | 8KB | Example catalog |
+| `docs/troubleshooting/common-issues.md` | 11KB | Troubleshooting |
+| `docs/patterns/api-patterns.md` | 5KB | Common API patterns |
+
+### Modular IOM Reference (Load by Topic)
+
+The Indigo Object Model is split into focused files (~4KB each):
+
+| Topic | File |
+|-------|------|
+| Architecture | `docs/api/iom/architecture.md` |
+| Command namespaces | `docs/api/iom/command-namespaces.md` |
+| Device classes | `docs/api/iom/devices.md` |
+| Trigger classes | `docs/api/iom/triggers.md` |
+| Filters | `docs/api/iom/filters.md` |
+| Subscriptions | `docs/api/iom/subscriptions.md` |
+| Constants | `docs/api/iom/constants.md` |
+| indigo.Dict/List | `docs/api/iom/containers.md` |
+| Utilities | `docs/api/iom/utilities.md` |
+
+### NEVER Load All at Once
+
+- `sdk-examples/` - 16 complete plugins (1.3MB total)
+- All `docs/api/iom/` files together
 
 ## Query Routing Guide
 
-Route user questions efficiently using Read tool:
+### Concepts vs API vs Patterns
 
-### 1. "Create a plugin" / "Getting started"
-```
-1. Read docs/quick-start.md
-2. Read snippets/plugin-base-template.py
-3. If specific device type: Read docs/examples/sdk-examples-guide.md to find example
+These are complementary - load based on question type:
+
+| User Asks About | Load |
+|-----------------|------|
+| Device design, Devices.xml, ConfigUI | `docs/concepts/devices.md` |
+| Device properties, methods | `docs/api/iom/devices.md` |
+| State updates, replaceOnServer | `docs/patterns/api-patterns.md` |
+| Plugin lifecycle | `docs/concepts/plugin-lifecycle.md` |
+| Filters/iteration | `docs/api/iom/filters.md` |
+| Subscriptions | `docs/api/iom/subscriptions.md` |
+
+### Specific Routing
+
+**"Create a plugin" / "Getting started"**
+1. Read `docs/quick-start.md`
+2. Read `snippets/plugin-base-template.py`
+3. If specific device type: Read `docs/examples/sdk-examples-guide.md`
 4. Read ONLY that specific SDK example if needed
-```
 
-### 2. "Debug error" / "Plugin not working"
-```
-1. Read docs/troubleshooting/common-issues.md
-2. Match error to solution
-3. If lifecycle issue: Read docs/concepts/plugin-lifecycle.md
-```
+**"Debug error" / "Plugin not working"**
+1. Read `docs/troubleshooting/common-issues.md`
+2. If lifecycle issue: Read `docs/concepts/plugin-lifecycle.md`
 
-### 3. "How do I [API task]?"
-```
-1. Read docs/api/indigo-object-model.md
-2. Show code example from doc
-```
+**"How do I update device state?"**
+1. Read `docs/patterns/api-patterns.md`
 
-### 4. "Show me an example"
-```
-1. Read docs/examples/sdk-examples-guide.md (catalog)
-2. Find matching example
-3. Read ONLY that specific example's code
-```
+**"What device properties exist?"**
+1. Read `docs/api/iom/devices.md`
 
-### 5. "Explain [concept]"
-```
-1. Read appropriate docs/concepts/ file
-2. Explain with examples
-```
+**"How does replaceOnServer work?"**
+1. Read `docs/api/iom/architecture.md`
+
+**"Show me an example"**
+1. Read `docs/examples/sdk-examples-guide.md`
+2. Read ONLY that specific example's code
 
 ## Workflow: Creating Plugins
 
 **User**: "Create a thermostat plugin"
 
-1. ✅ Read `docs/quick-start.md` - Setup and structure
-2. ✅ Read `docs/examples/sdk-examples-guide.md` - Find thermostat example
-3. ✅ Read `sdk-examples/Example Device - Thermostat.indigoPlugin/.../plugin.py` - Specific code
-4. ✅ Generate custom code based on pattern
+1. ✅ Read `docs/quick-start.md`
+2. ✅ Read `docs/examples/sdk-examples-guide.md`
+3. ✅ Read specific thermostat example
+4. ✅ Generate custom code
 5. ❌ Don't load all 16 examples
-
-## Workflow: Debugging
-
-**User**: "Plugin crashes on startup"
-
-1. ✅ Read `docs/troubleshooting/common-issues.md#plugin-crashes-on-startup`
-2. ✅ Check common causes (API in __init__, missing super())
-3. ✅ If needed: Read `docs/concepts/plugin-lifecycle.md`
-4. ❌ Don't load examples unless relevant
 
 ## Documentation Structure
 
-**Optimized for selective loading**:
-
 ```
 docs/
-├── quick-start.md              # Complete getting started (9KB)
+├── quick-start.md                 # Getting started (9KB)
 ├── concepts/
-│   ├── plugin-lifecycle.md     # Lifecycle methods (12KB)
-│   └── devices.md              # Device development (11KB)
+│   ├── plugin-lifecycle.md        # Lifecycle methods (12KB)
+│   └── devices.md                 # Device design (7KB)
 ├── api/
-│   └── indigo-object-model.md  # Complete API reference (9KB)
+│   ├── indigo-object-model.md     # Overview (3KB)
+│   └── iom/                       # Modular reference (~35KB total)
+│       ├── architecture.md        # Core concepts (4KB)
+│       ├── command-namespaces.md  # Commands (5KB)
+│       ├── devices.md             # Device classes (5KB)
+│       ├── triggers.md            # Trigger classes (4KB)
+│       ├── filters.md             # Iteration (4KB)
+│       ├── subscriptions.md       # Callbacks (4KB)
+│       ├── constants.md           # Icons/enums (4KB)
+│       ├── containers.md          # Dict/List (3KB)
+│       └── utilities.md           # Helpers (4KB)
+├── patterns/
+│   └── api-patterns.md            # Common patterns (5KB)
 ├── examples/
-│   └── sdk-examples-guide.md   # Catalog of 16 examples (8KB)
+│   └── sdk-examples-guide.md      # Example catalog (8KB)
 └── troubleshooting/
-    └── common-issues.md        # Common problems (11KB)
+    └── common-issues.md           # Debugging (11KB)
 
-sdk-examples/                   # 16 complete plugins (1.3MB)
-├── README.md                   # Quick catalog (6KB)
-└── [16 example plugins]        # Load individually only
-
+sdk-examples/                      # 16 plugins (1.3MB) - Load individually
 snippets/
-└── plugin-base-template.py     # Clean template
+└── plugin-base-template.py        # Clean template
 ```
 
 ## SDK Examples: 16 Complete Plugins
 
-**Device Types** (Load when user needs specific type):
-- Custom - General-purpose with custom states
-- Relay/Dimmer - On/off and brightness control
-- Thermostat - Climate control with HVAC modes
-- Sensor - Read-only monitoring
-- Speed Control - Variable speed (fans)
-- Sprinkler - Multi-zone irrigation
-- Energy Meter - Power monitoring
+**Device Types**: Custom, Relay/Dimmer, Thermostat, Sensor, Speed Control, Sprinkler, Energy Meter
 
-**Integration** (Load when user needs integration):
-- HTTP Responder - Web server/REST API
-- Action API - Custom actions
-- Broadcaster/Subscriber - Plugin communication
-- Variable Subscriber - Monitor variables
-- Database Traverse - Query database
+**Integration**: HTTP Responder, Action API, Broadcaster/Subscriber, Variable Subscriber, Database Traverse
 
-**Finding examples**: Read `sdk-examples/README.md` or `docs/examples/sdk-examples-guide.md` first, then load specific example.
+**Finding examples**: Read `docs/examples/sdk-examples-guide.md` first, then load specific example.
 
-## Version Information
-
-- **Current**: Indigo 2023.2+ (Python 3.10+)
-- **Legacy**: 2022.x (Python 2.7, not recommended)
-- Always use Python 3 syntax
-
-## Best Practices (Always Follow)
+## Best Practices
 
 ### Code Quality
 - ✅ Always call `super()` in all lifecycle methods
 - ✅ Use `self.sleep()` NOT `time.sleep()` in concurrent threads
-- ✅ Validate all user input in validation callbacks
+- ✅ Validate all user input
 - ✅ Log appropriately: `self.logger.debug/info/error/exception()`
-- ✅ Bundle Python dependencies in `Contents/Packages/`
 - ✅ Handle exceptions gracefully
 - ✅ Close connections in `shutdown()`
 
 ### Security
 - Never expose API keys in logs
 - Validate all external input
-- Handle exceptions without exposing sensitive data
 
 ## Response Guidelines
 
 1. **Reference file paths**: Link to specific docs with markdown
-   - Example: "See [plugin-lifecycle.md](docs/concepts/plugin-lifecycle.md)"
-
-2. **Show code examples**: Always include working code snippets
-
+2. **Show code examples**: Include working code snippets
 3. **Explain why**: Don't just show code, explain the pattern
-
 4. **Point to examples**: "This is like Example Device - Thermostat"
 
-## When to Use Each Resource
+## External Resources
 
-| User Need | Load These | Don't Load |
-|-----------|-----------|------------|
-| Create plugin | quick-start.md, template.py | Examples |
-| Debug | troubleshooting/common-issues.md | Concepts |
-| API question | api/indigo-object-model.md | Examples |
-| Concept | Specific concept doc | All concepts |
-| Example | sdk-examples-guide.md + specific example | All examples |
-
-## Quick Reference
-
-### Core Files
-- `docs/quick-start.md` - Getting started
-- `docs/concepts/plugin-lifecycle.md` - Lifecycle
-- `docs/concepts/devices.md` - Devices
-- `docs/api/indigo-object-model.md` - API
-- `docs/examples/sdk-examples-guide.md` - Example catalog
-- `docs/troubleshooting/common-issues.md` - Troubleshooting
-
-### External Resources
-- Official Plugin Guide: https://www.indigodomo.com/docs/plugin_guide
-- Object Model Reference: https://www.indigodomo.com/docs/object_model_reference
-- Scripting Tutorial: https://www.indigodomo.com/docs/plugin_scripting_tutorial
+- Official Plugin Guide: https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:plugin_guide
+- Object Model Reference: https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:object_model_reference
 - Developer Forum: https://forums.indigodomo.com/viewforum.php?f=18
 
 ## Skill Maintenance
 
-This skill is actively maintained by the Indigo community.
-
 - **Report issues**: https://github.com/simons-plugins/indigo-claude-skill/issues
 - **Contribute**: https://github.com/simons-plugins/indigo-claude-skill/pulls
-- **Discussions**: https://github.com/simons-plugins/indigo-claude-skill/discussions
