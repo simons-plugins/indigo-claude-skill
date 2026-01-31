@@ -281,12 +281,12 @@ Now that you have a working plugin:
 
 1. **Understand Plugin Architecture**
    - Read [`concepts/plugin-lifecycle.md`](concepts/plugin-lifecycle.md)
-   - Learn about device types in [`concepts/device-types.md`](concepts/device-types.md)
+   - Learn about device types in [`concepts/devices.md`](concepts/devices.md)
 
 2. **Add Functionality**
    - Create devices: See [`concepts/devices.md`](concepts/devices.md)
-   - Add actions: See [`patterns/actions-and-events.md`](patterns/actions-and-events.md)
-   - Build config UIs: See [`api/ui-validation.md`](api/ui-validation.md)
+   - Add custom events: See [`concepts/events.md`](concepts/events.md)
+   - Plugin preferences: See [`concepts/plugin-preferences.md`](concepts/plugin-preferences.md)
 
 3. **Study Examples**
    - Browse [`sdk-examples/README.md`](../sdk-examples/README.md) for 16 complete examples
@@ -298,10 +298,10 @@ Now that you have a working plugin:
 
 ## External Resources
 
-- 📖 [Official Plugin Developer's Guide](https://www.indigodomo.com/docs/plugin_guide)
-- 📚 [Indigo Object Model Reference](https://www.indigodomo.com/docs/object_model_reference)
-- 💬 [Indigo Developer Forum](https://forums.indigodomo.com/viewforum.php?f=18)
-- 🔧 [GitHub: Indigo Skill Repository](https://github.com/simons-plugins/indigo-claude-skill)
+- [Official Plugin Developer's Guide](https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:plugin_guide)
+- [Indigo Object Model Reference](https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:object_model_reference)
+- [Indigo Developer Forum](https://forums.indigodomo.com/viewforum.php?f=18)
+- [GitHub: Indigo Skill Repository](https://github.com/simons-plugins/indigo-claude-skill)
 
 ---
 

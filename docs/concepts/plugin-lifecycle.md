@@ -1,6 +1,6 @@
 # Plugin Lifecycle
 
-**Official Documentation**: https://www.indigodomo.com/docs/plugin_guide#plugin_lifecycle
+**Official Documentation**: [Plugin Guide - Lifecycle](https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:plugin_guide#plugin_lifecycle)
 
 Understanding the plugin lifecycle is essential for proper plugin development, resource management, and avoiding memory leaks or zombie processes.
 
@@ -608,14 +608,14 @@ def shutdown(self):
 - [ ] Files and sockets closed in `shutdown()`
 - [ ] Event subscriptions cancelled in `shutdown()`
 
-## Related Documentation
+## See Also
 
-- [Device Development](devices.md) - Device lifecycle callbacks and patterns
-- [State Management](state-management.md) - Managing device states
-- [Configuration Validation](../api/ui-validation.md) - Validating user input
+- [Device Development](devices.md) - Device types, Devices.xml, ConfigUI
+- [Plugin Preferences](plugin-preferences.md) - Persistent plugin settings
+- [API Patterns](../patterns/api-patterns.md) - State updates and common patterns
 
 ## Official References
 
-- [Plugin Developer's Guide - Plugin Lifecycle](https://www.indigodomo.com/docs/plugin_guide#plugin_lifecycle)
-- [Plugin Developer's Guide - Concurrent Thread](https://www.indigodomo.com/docs/plugin_guide#concurrent_thread)
-- [Object Model Reference - Plugin Class](https://www.indigodomo.com/docs/object_model_reference#plugin)
+- [Plugin Developer's Guide - Lifecycle](https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:plugin_guide#plugin_lifecycle)
+- [Plugin Developer's Guide - Concurrent Thread](https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:plugin_guide#concurrent_thread)
+- [Object Model Reference](https://wiki.indigodomo.com/doku.php?id=indigo_2025.1_documentation:object_model_reference)
