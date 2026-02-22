@@ -25,6 +25,7 @@ Community-maintained expert assistant for Indigo home automation plugin developm
 | `docs/examples/sdk-examples-guide.md` | 8KB | Example catalog |
 | `docs/troubleshooting/common-issues.md` | 11KB | Troubleshooting |
 | `docs/patterns/api-patterns.md` | 5KB | Common API patterns |
+| `docs/patterns/open-source-contributing.md` | 3KB | Contributing to IndigoDomotics open source |
 
 ### Modular IOM Reference (Load by Topic)
 
@@ -63,6 +64,8 @@ These are complementary - load based on question type:
 | Custom events, Events.xml | `docs/concepts/events.md` |
 | Filters/iteration | `docs/api/iom/filters.md` |
 | Subscriptions | `docs/api/iom/subscriptions.md` |
+| Schedule/action group commands | `docs/api/iom/command-namespaces.md` |
+| Open source contributing | `docs/patterns/open-source-contributing.md` |
 
 ### Specific Routing
 
@@ -84,6 +87,13 @@ These are complementary - load based on question type:
 
 **"How do I update device state?"**
 1. Read `docs/patterns/api-patterns.md`
+
+**"How do I execute/manage schedules or action groups?"**
+1. Read `docs/api/iom/command-namespaces.md`
+2. Read `docs/patterns/api-patterns.md`
+
+**"How do I contribute to open source?" / "Add plugin to IndigoDomotics"**
+1. Read `docs/patterns/open-source-contributing.md`
 
 **"What device properties exist?"**
 1. Read `docs/api/iom/devices.md`
@@ -128,7 +138,8 @@ docs/
 │       ├── containers.md          # Dict/List (3KB)
 │       └── utilities.md           # Helpers (4KB)
 ├── patterns/
-│   └── api-patterns.md            # Common patterns (5KB)
+│   ├── api-patterns.md            # Common patterns (5KB)
+│   └── open-source-contributing.md # IndigoDomotics contributing guide (3KB)
 ├── examples/
 │   └── sdk-examples-guide.md      # Example catalog (8KB)
 └── troubleshooting/

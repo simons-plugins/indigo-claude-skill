@@ -164,7 +164,9 @@ def get_variable_value(self, name, default=""):
         return default
 ```
 
-## Action Group Execution
+## Action Group Patterns
+
+### Execute
 
 ```python
 # By ID
@@ -173,6 +175,62 @@ indigo.actionGroup.execute(123456)
 # By name
 ag = indigo.actionGroups["Morning Routine"]
 indigo.actionGroup.execute(ag.id)
+
+# With event data (passed to actions in the group)
+event_data = indigo.Dict()
+event_data["scene"] = "evening"
+indigo.actionGroup.execute(ag.id, event_data=event_data)
+```
+
+### Dependencies and Management
+
+```python
+# Check what depends on an action group before deleting
+deps = indigo.actionGroup.getDependencies(ag.id)
+if deps:
+    indigo.server.log(f"Action group has dependencies: {deps}")
+
+# Duplicate an action group
+new_ag = indigo.actionGroup.duplicate(ag.id, duplicateName="Morning Routine v2")
+
+# Move to a folder
+indigo.actionGroup.moveToFolder(ag.id, value=folder_id)
+```
+
+## Schedule Patterns
+
+### Execute and Control
+
+```python
+# Execute a schedule immediately
+indigo.schedule.execute(sched.id)
+
+# Execute ignoring conditions
+indigo.schedule.execute(sched.id, ignoreConditions=True)
+
+# Execute with metadata
+sched_data = indigo.Dict()
+sched_data["reason"] = "manual override"
+indigo.schedule.execute(sched.id, schedule_data=sched_data)
+
+# Enable with delay (seconds before activation) and duration (auto-disable after)
+indigo.schedule.enable(sched.id, value=True, delay=30, duration=3600)
+
+# Cancel pending delayed actions
+indigo.schedule.removeDelayedActions(sched.id)
+```
+
+### Dependencies and Management
+
+```python
+# Check dependencies before deletion
+deps = indigo.schedule.getDependencies(sched.id)
+
+# Duplicate a schedule
+new_sched = indigo.schedule.duplicate(sched.id, duplicateName="Weekday Backup")
+
+# Move to a folder
+indigo.schedule.moveToFolder(sched.id, value=folder_id)
 ```
 
 ## Logging Patterns
