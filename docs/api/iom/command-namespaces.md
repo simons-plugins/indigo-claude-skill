@@ -155,11 +155,27 @@ indigo.variable.moveToFolder(var_or_id, folder_id)
 # Execute action group
 indigo.actionGroup.execute(ag_or_id)
 
+# Execute with event data (indigo.Dict passed to actions)
+# Indigo auto-adds "source" key ("server", "python", "api-http", or "api-websocket")
+indigo.actionGroup.execute(ag_or_id, event_data=some_dict)
+
 # Enable/disable
 indigo.actionGroup.enable(ag_or_id, value=True)
 
 # Delete
 indigo.actionGroup.delete(ag_or_id)
+
+# Duplicate (returns new action group instance)
+indigo.actionGroup.duplicate(ag_or_id, duplicateName="Copy of AG")
+
+# Move to folder
+indigo.actionGroup.moveToFolder(ag_or_id, value=folder_id)
+
+# Display in remote UI
+indigo.actionGroup.displayInRemoteUI(ag_or_id, value=True)
+
+# Get dependencies (returns indigo.Dict of dependent objects)
+indigo.actionGroup.getDependencies(ag_or_id)
 ```
 
 ## Schedule Commands
@@ -169,11 +185,28 @@ indigo.actionGroup.delete(ag_or_id)
 | `indigo.Schedule` | `indigo.schedule.*` |
 
 ```python
-# Enable/disable
-indigo.schedule.enable(sched_or_id, value=True)
+# Enable/disable (with optional delay and duration in seconds)
+indigo.schedule.enable(sched_or_id, value=True, delay=0, duration=0)
 
 # Delete
 indigo.schedule.delete(sched_or_id)
+
+# Duplicate (returns new schedule instance)
+indigo.schedule.duplicate(sched_or_id, duplicateName="Copy of Schedule")
+
+# Execute immediately
+# ignoreConditions: bypass any schedule conditions
+# schedule_data: indigo.Dict with optional metadata (Indigo auto-adds "source" and "timestamp")
+indigo.schedule.execute(sched_or_id, ignoreConditions=False, schedule_data=None)
+
+# Move to folder
+indigo.schedule.moveToFolder(sched_or_id, value=folder_id)
+
+# Get dependencies (returns indigo.Dict of dependent objects)
+indigo.schedule.getDependencies(sched_or_id)
+
+# Remove any pending delayed actions
+indigo.schedule.removeDelayedActions(sched_or_id)
 ```
 
 ## Protocol-Specific Commands
@@ -213,7 +246,10 @@ All namespaces support these methods for their object type:
 | Method | Description |
 |--------|-------------|
 | `create()` | Create new object |
-| `duplicate()` | Duplicate existing object |
+| `duplicate()` | Duplicate existing object (returns new instance) |
 | `delete()` | Delete object |
 | `enable()` | Enable/disable object |
+| `execute()` | Execute object (action groups, schedules) |
 | `moveToFolder()` | Move to folder |
+| `getDependencies()` | Get dependent Indigo objects (returns `indigo.Dict`) |
+| `removeDelayedActions()` | Remove pending delayed actions (schedules) |
